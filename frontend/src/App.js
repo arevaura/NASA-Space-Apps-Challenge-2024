@@ -3,6 +3,8 @@ import React from 'react';
 import './App.css';
 import Orrery from './Orrery.js';
 import { useEffect } from 'react';
+import Popup from "./Popups.js";
+
 
 function App() {
 
