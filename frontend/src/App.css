@@ -19,17 +19,3 @@
   background-color: #121C31;
 }
 
-.planetInfoDiv {
-    display:flex;
-    float: left;
-    padding: 0%;
-    background-color: #121C31;
-    border: 1px solid white;
-    width: 25vw;
-    height: 100vh;
-    margin: 30px;
-    margin-top: auto;
-
-    
-
-}
