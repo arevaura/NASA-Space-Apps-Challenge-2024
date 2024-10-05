@@ -8,3 +8,8 @@
     height: 175%; /* Allow height to adjust based on content */
     margin: 30px; /* Adjust margins if needed */
 }
+
+
+.planetInfo {
+    font-size: 15px;
+}
