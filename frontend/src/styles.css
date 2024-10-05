@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.solar-system {
+    flex: 3;
+    background-color: #000;
+    position: relative;
+}
+
+.info-panel {
+    flex: 1;
+    padding: 20px;
+    background-color: #222;
+    color: white;
+    overflow-y: auto;
+    font-size: 18px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+#planet-info {
+    margin-top: 15px;
+}
