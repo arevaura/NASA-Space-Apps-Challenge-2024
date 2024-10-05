@@ -1,7 +1,11 @@
 import './App.css';
+import React from 'react';
+import './App.css';
 import Orrery from './Orrery.js';
+
 import "./script.js";
 import { useState } from 'react';
+
 
 function App() {
  
