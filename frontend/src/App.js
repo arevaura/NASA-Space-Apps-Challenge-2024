@@ -2,15 +2,17 @@ import './App.css';
 import React from 'react';
 import './App.css';
 import Orrery from './Orrery.js';
-
-import "./script.js";
-import { useState } from 'react';
-import Popup from './Popups.js';
-import "./Popups.css";
+import { useEffect } from 'react';
 
 function App() {
- 
-  
+
+  useEffect(() => {
+    fetch('http://localhost:8000/load-page')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('There was a problem with the fetch operation:', error));
+    console.log("something")
+  })
 
   return (
     <div className="App">
