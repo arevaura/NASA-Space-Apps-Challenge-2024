@@ -1,0 +1,236 @@
+{
+    "Mercury": {
+        "a [AU]": {
+            "value": 0.38709927,
+            "rate_of_change": 3.7e-07
+        },
+        "e [rad]": {
+            "value": 0.20563593,
+            "rate_of_change": 1.906e-05
+        },
+        "I [deg]": {
+            "value": 7.00497902,
+            "rate_of_change": -0.00594749
+        },
+        "L [deg]": {
+            "value": 252.2503235,
+            "rate_of_change": 149472.67411175
+        },
+        "long.peri.[deg]": {
+            "value": 77.45779628,
+            "rate_of_change": 0.16047689
+        },
+        "long.node. [deg]": {
+            "value": 48.33076593,
+            "rate_of_change": -0.12534081
+        }
+    },
+    "Venus": {
+        "a [AU]": {
+            "value": 0.72333566,
+            "rate_of_change": 3.9e-06
+        },
+        "e [rad]": {
+            "value": 0.00677672,
+            "rate_of_change": -4.107e-05
+        },
+        "I [deg]": {
+            "value": 3.39467605,
+            "rate_of_change": -0.0007889
+        },
+        "L [deg]": {
+            "value": 181.9790995,
+            "rate_of_change": 58517.81538729
+        },
+        "long.peri.[deg]": {
+            "value": 131.60246718,
+            "rate_of_change": 0.00268329
+        },
+        "long.node. [deg]": {
+            "value": 76.67984255,
+            "rate_of_change": -0.27769418
+        }
+    },
+    "EM_Bary": {
+        "a [AU]": {
+            "value": 1.00000261,
+            "rate_of_change": 5.62e-06
+        },
+        "e [rad]": {
+            "value": 0.01671123,
+            "rate_of_change": -4.392e-05
+        },
+        "I [deg]": {
+            "value": -1.531e-05,
+            "rate_of_change": -0.01294668
+        },
+        "L [deg]": {
+            "value": 100.46457166,
+            "rate_of_change": 35999.37244981
+        },
+        "long.peri.[deg]": {
+            "value": 102.93768193,
+            "rate_of_change": 0.32327364
+        },
+        "long.node. [deg]": {
+            "value": 0.0,
+            "rate_of_change": 0.0
+        }
+    },
+    "Mars": {
+        "a [AU]": {
+            "value": 1.52371034,
+            "rate_of_change": 1.847e-05
+        },
+        "e [rad]": {
+            "value": 0.0933941,
+            "rate_of_change": 7.882e-05
+        },
+        "I [deg]": {
+            "value": 1.84969142,
+            "rate_of_change": -0.00813131
+        },
+        "L [deg]": {
+            "value": -4.55343205,
+            "rate_of_change": 19140.30268499
+        },
+        "long.peri.[deg]": {
+            "value": -23.94362959,
+            "rate_of_change": 0.44441088
+        },
+        "long.node. [deg]": {
+            "value": 49.55953891,
+            "rate_of_change": -0.29257343
+        }
+    },
+    "Jupiter": {
+        "a [AU]": {
+            "value": 5.202887,
+            "rate_of_change": -0.00011607
+        },
+        "e [rad]": {
+            "value": 0.04838624,
+            "rate_of_change": -0.00013253
+        },
+        "I [deg]": {
+            "value": 1.30439695,
+            "rate_of_change": -0.00183714
+        },
+        "L [deg]": {
+            "value": 34.39644051,
+            "rate_of_change": 3034.74612775
+        },
+        "long.peri.[deg]": {
+            "value": 14.72847983,
+            "rate_of_change": 0.21252668
+        },
+        "long.node. [deg]": {
+            "value": 100.47390909,
+            "rate_of_change": 0.20469106
+        }
+    },
+    "Saturn": {
+        "a [AU]": {
+            "value": 9.53667594,
+            "rate_of_change": -0.0012506
+        },
+        "e [rad]": {
+            "value": 0.05386179,
+            "rate_of_change": -0.00050991
+        },
+        "I [deg]": {
+            "value": 2.48599187,
+            "rate_of_change": 0.00193609
+        },
+        "L [deg]": {
+            "value": 49.95424423,
+            "rate_of_change": 1222.49362201
+        },
+        "long.peri.[deg]": {
+            "value": 92.59887831,
+            "rate_of_change": -0.41897216
+        },
+        "long.node. [deg]": {
+            "value": 113.66242448,
+            "rate_of_change": -0.28867794
+        }
+    },
+    "Uranus": {
+        "a [AU]": {
+            "value": 19.18916464,
+            "rate_of_change": -0.00196176
+        },
+        "e [rad]": {
+            "value": 0.04725744,
+            "rate_of_change": -4.397e-05
+        },
+        "I [deg]": {
+            "value": 0.77263783,
+            "rate_of_change": -0.00242939
+        },
+        "L [deg]": {
+            "value": 313.23810451,
+            "rate_of_change": 428.48202785
+        },
+        "long.peri.[deg]": {
+            "value": 170.9542763,
+            "rate_of_change": 0.40805281
+        },
+        "long.node. [deg]": {
+            "value": 74.01692503,
+            "rate_of_change": 0.04240589
+        }
+    },
+    "Neptune": {
+        "a [AU]": {
+            "value": 30.06992276,
+            "rate_of_change": 0.00026291
+        },
+        "e [rad]": {
+            "value": 0.00859048,
+            "rate_of_change": 5.105e-05
+        },
+        "I [deg]": {
+            "value": 1.77004347,
+            "rate_of_change": 0.00035372
+        },
+        "L [deg]": {
+            "value": -55.12002969,
+            "rate_of_change": 218.45945325
+        },
+        "long.peri.[deg]": {
+            "value": 44.96476227,
+            "rate_of_change": -0.32241464
+        },
+        "long.node. [deg]": {
+            "value": 131.78422574,
+            "rate_of_change": -0.00508664
+        }
+    },
+    "Pluto": {
+        "a [AU]": {
+            "value": 39.48211675,
+            "rate_of_change": -0.00031596
+        },
+        "e [rad]": {
+            "value": 0.2488273,
+            "rate_of_change": 5.17e-05
+        },
+        "I [deg]": {
+            "value": 17.14001206,
+            "rate_of_change": 4.818e-05
+        },
+        "L [deg]": {
+            "value": 238.92903833,
+            "rate_of_change": 145.20780515
+        },
+        "long.peri.[deg]": {
+            "value": 224.06891629,
+            "rate_of_change": -0.04062942
+        },
+        "long.node. [deg]": {
+            "value": 110.30393684,
+            "rate_of_change": -0.01183482
+        }
+    }
+}
