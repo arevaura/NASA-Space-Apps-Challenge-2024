@@ -1,11 +1,12 @@
 import { Canvas } from "@react-three/fiber";
 import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
+import './App.css';
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 
 function Model(props) {
-    const {scene} = useGLTF("/bmw_m4_competition_m_package.glb") // the scene is what the 3d object is, useGLTF is a react hook
+    const {scene} = useGLTF("/models/mars.glb") // the scene is what the 3d object is, useGLTF is a react hook
     return <primitive object={scene} {...props} /> // 
 }
 
@@ -93,19 +94,20 @@ function OrbitingBody({ keplerianParams, scale }) {
 }
 */
 
-function Orrery () {
+function Orrery ({className}) {
     return (
         // Canvas has properties which allow us to pick how the 3d gets rendered
         // dpr is device pixel ratio
         // PresentationControls (helper from drei library) allows us to create a simple 3d model render
-        <Canvas dpr={[1,2]} shadows camera={{ fov: 45 }} style={{"position": "absolute"}}> 
-        <color attach="background" args={["#101010"]} />
-        <PresentationControls speed={1.5} global zoom={.5} polar={[-0.1, Math.PI / 4]}>
-            <Stage environment={null}>
-                <Model scale={0.01} />
-            </Stage>
-        </PresentationControls>
-        </Canvas>
+        <div className={className}>
+            <Canvas dpr={[1,2]} shadows camera={{ fov: 45 }} style={{"position": "absolute"}}> 
+            <PresentationControls speed={1.5} global zoom={.5} polar={[-0.1, Math.PI / 4]}>
+                <Stage environment={null}>
+                    <Model scale={0.01} />
+                </Stage>
+            </PresentationControls>
+            </Canvas>
+        </div>
     )
 }
 

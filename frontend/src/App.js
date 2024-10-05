@@ -15,16 +15,15 @@ function App() {
   })
 
   return (
+    
     <div className="App">
       <div className="header">
         <p>
           Capuchins | Orrery
         </p>
       </div>
-      <div className='container'>
-        <p>
-          ...
-        </p>
+      <div className="container">
+        <Orrery className="Orrery"/>
       </div>
     </div>
   );
