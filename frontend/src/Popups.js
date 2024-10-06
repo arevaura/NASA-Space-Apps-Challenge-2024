@@ -53,8 +53,8 @@ function Popup({ visiblePlanet, closePopup}) {
     }
 
     return (
-        <div className="popup">
-            <h2>{visiblePlanet.object || "Unnamed Planet"}</h2>
+        <div className="planetInfoDiv">
+            <h2>{visiblePlanet.object || "Unnamed Object"}</h2>
             <p>{/* other properties etc.*/}</p>
             {/* Conditional rendering for each planet's information */}
             

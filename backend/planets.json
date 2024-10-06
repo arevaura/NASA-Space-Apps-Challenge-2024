@@ -14,6 +14,8 @@
         "anode": 48.33076593,
         "danode": -0.12534081,
         "texturePath": "/textures/mercury.jpg",
+        "glbFile": "/models/mercury.glb",
+        "description": "Mercury is the smallest planet in our solar system, only slightly larger than Earth’s Moon. Named after the Roman messenger god, it is the closest planet to the Sun. However, Mercury rotates very slowly, taking 59 Earth days to complete one rotation, while it takes just 88 Earth days to orbit the Sun. This results in extreme temperature variations, with daytime temperatures soaring to over 427 degrees Celsius and dropping to nearly -201 degrees Celsius at night.",
         "size": 0.014016,
         "real": 0.001752
     },
@@ -32,11 +34,12 @@
         "anode": 76.67984255,
         "danode": -0.27769418,
         "texturePath": "/textures/venus.jpg",
+        "glbFile": "/models/venus.glb",
         "size": 0.034764,
         "real": 0.0043455
     },
     {
-        "object": "EM_Bary",
+        "object": "Earth",
         "a": 1.00000261,
         "da": 5.62e-06,
         "e": 0.01671123,
@@ -50,6 +53,7 @@
         "anode": 0.0,
         "danode": 0.0,
         "texturePath": "/textures/earth.jpg",
+        "glbFile": "/models/earth.glb",
         "size": 0.036596,
         "real": 0.0045745
     },
@@ -68,6 +72,7 @@
         "anode": 49.55953891,
         "danode": -0.29257343,
         "texturePath": "/textures/mars.jpg",
+        "glbFile": "/models/mars.glb",
         "size": 0.019472,
         "real": 0.002434
     },
@@ -86,6 +91,7 @@
         "anode": 100.47390909,
         "danode": 0.20469106,
         "texturePath": "/textures/jupiter.jpg",
+        "glbFile": "/models/jupiter.glb",
         "size": 0.100398,
         "real": 0.050199
     },
@@ -104,6 +110,7 @@
         "anode": 113.66242448,
         "danode": -0.28867794,
         "texturePath": "/textures/saturn.jpg",
+        "glbFile": "/models/saturn.glb",
         "size": 0.083626,
         "real": 0.041813
     },
@@ -122,6 +129,7 @@
         "anode": 74.01692503,
         "danode": 0.04240589,
         "texturePath": "/textures/uranus.jpg",
+        "glbFile": "/models/uranus.glb",
         "size": 0.036422,
         "real": 0.018211
     },
@@ -140,6 +148,7 @@
         "anode": 131.78422574,
         "danode": -0.00508664,
         "texturePath": "/textures/neptune.jpg",
+        "glbFile": "/models/neptune.glb",
         "size": 0.035359,
         "real": 0.0176795
     },
@@ -157,7 +166,8 @@
         "dperi": -0.04062942,
         "anode": 110.30393684,
         "danode": -0.01183482,
-        "texturePath": "/textures/test.jpg",
+        "texturePath": "/textures/pluto.jpg",
+        "glbFile": "/models/pluto.glb",
         "size": 0.00609933333,
         "real": 0.00228725
     }
