@@ -125,9 +125,21 @@ function KeplerianOrrery() {
 // Orbiting body component
 function OrbitingBody({ keplerianParams, scale }) {
     const bodyRef = useRef();
-    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode } = keplerianParams;
-    
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath } = keplerianParams;
+
     const TIME_SCALE = 0.001; // Simulated days per real second
+
+    // Load texture
+    const textureLoader = new THREE.TextureLoader();
+    const [texture, setTexture] = useState(null);
+
+    useEffect(() => {
+        if (texturePath) {
+            textureLoader.load(texturePath, (loadedTexture) => {
+                setTexture(loadedTexture);
+            });
+        }
+    }, [texturePath]);
 
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
@@ -139,8 +151,8 @@ function OrbitingBody({ keplerianParams, scale }) {
     return (
         <>
             <mesh ref={bodyRef} scale={scale}>
-                <sphereGeometry args={[0.2, 16, 16]} />
-                <meshStandardMaterial color="red" />
+                <sphereGeometry args={[1, 16, 16]} />
+                <meshStandardMaterial map={texture} />
             </mesh>
 
             <OrbitLine a={a} e={e} i={i} /> 

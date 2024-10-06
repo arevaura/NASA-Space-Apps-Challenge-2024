@@ -18,9 +18,7 @@ app.get('/', (req, res) => {
   res.send('Hello from server!');
 });
 
-// Serve static files from the frontend/models directory
-app.use('/models', express.static(path.join(__dirname, '../frontend/models')));
-
+// Route to load the JSON data
 app.get('/load-page', (req, res) => {
 
   const filePath = path.join(__dirname, 'planets.json'); // Path to the JSON file
@@ -42,6 +40,11 @@ app.get('/load-page', (req, res) => {
 
 
 })
+
+// Serve static files from the frontend/models directory
+app.use('/models', express.static(path.join(__dirname, '../frontend/public/models')));
+app.use('/textures', express.static(path.join(__dirname, '../frontend/public/textures')));
+
 
 app.listen(8000, () => {
     console.log('Server started on http://localhost:8000');
