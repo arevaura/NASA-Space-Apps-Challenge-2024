@@ -9,6 +9,8 @@
     position: absolute;
     z-index: 2;
     font-size: 15px;
+    padding: 15px;
+    border: 1px solid white;
 
 }
 
