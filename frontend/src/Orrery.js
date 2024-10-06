@@ -70,9 +70,8 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
 // Orbit Line Component
 // Orbit Line Component
 // Orbit Line Component
-function OrbitLine({ a, e, i, onClick }) {
+function OrbitLine({ a, e, i }) {
     const points = [];
-    const hitboxPoints =[];
 
     for (let angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
         const r = (a * (1 - e ** 2)) / (1 + e * Math.cos(angle));
@@ -86,63 +85,24 @@ function OrbitLine({ a, e, i, onClick }) {
         const orbitZ = y * Math.sin(I);
 
         points.push(new THREE.Vector3(orbitX, orbitY, orbitZ));
-
-        // const hitboxRadius = 0.1;
-        // hitboxPoints.push(new THREE.Vector3(orbitX + hitboxRadius , orbitY + hitboxRadius * Math.cos(I), orbitZ + hitboxRadius * Math.sin(I)));
-
     }
-    
-    /*
-    const arePointsEqual = points.length === hitboxPoints.length && points.every((point, index) => {
-        const hitboxPoint = hitboxPoints[index];
-        return point.equals(hitboxPoint); // Compare the vector3 objects
-    });
-
-    if (arePointsEqual) {
-        console.log("true");
-    }
-    */
 
     const handleOrbitClick = (e) => {
         e.stopPropagation();
-
-        const mousePos = new THREE.Vector2();
-        mousePos.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
-
-        const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(mousePos, e.camera);
-
-        const intersects = points.map((point, index) => {
-            if (index === 0) return null;
-            const segment = new THREE.Line3(points[index - 1], points[index]);
-            return segment.closestPointToPoint(raycaster.ray.origin, true);
-        }).filter(Boolean);
-
-        const distanceThreshold = 0.1;
-        const isCloseEnough = intersects.some(point => {
-            return point.distanceTo(raycaster.ray.origin) < distanceThreshold;
-        });
-
-        if (isCloseEnough) {
-            alert(`Orbiting body with parameters:\nSemi-Major Axis: ${a}\nEccentricity: ${e}`);
-        }
+        alert(`Orbiting body with parameters:\nSemi-Major Axis: ${a}\nEccentricity: ${e}`);
     };
-    return (
-        <>
-            {/* visible line*/}
-            <Line 
-                points={points} 
-                color="lightblue" 
-                lineWidth={1} 
-                onPointerDown={onClick} 
-                onPointerOver={(e) => (e.object.material.color.set('orange'))}
-                onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
-            />
 
-        </>
+    return (
+        <Line 
+            points={points} 
+            color="lightblue" 
+            lineWidth={1} 
+            onPointerDown={handleOrbitClick} // Directly handle the click
+            onPointerOver={(e) => (e.object.material.color.set('orange'))}
+            onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
+        />
     );
 }
-
 
 
 // Main Orrery component with API integration
