@@ -3,7 +3,13 @@ import "./Popups.css";
 import { useGLTF } from "@react-three/drei";
 
 function GLBModel({ path }) {
-    const { scene } = useGLTF(path);
+    const { scene, error } = useGLTF(path);
+
+    if (error) {
+        console.error("Error loading GLB model:", error);
+        return null;
+    }
+
     return <primitive object={scene} />;
 }
 
