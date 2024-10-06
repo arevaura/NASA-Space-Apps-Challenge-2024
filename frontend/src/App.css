@@ -19,6 +19,7 @@
 
 .Orrery{
   width: 100%;  /* Orrery takes full width of container */
+  max-width: 100%;
   height: 100%; /* Orrery takes full height of container */
   box-sizing: border-box;
   overflow: hidden;
