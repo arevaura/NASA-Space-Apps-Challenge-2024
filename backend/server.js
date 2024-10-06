@@ -30,7 +30,6 @@ app.get('/load-page', (req, res) => {
     for(let i = 0; i < data.length; i++) {
       let obj = data[i];
       res.send(data);
-
    }
   })
   .catch(error => {
