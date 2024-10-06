@@ -1,4 +1,4 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
@@ -14,19 +14,19 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     // updates with time
     a = a + da * t
     e = e + de * t
-    I = (i + di * t) * Math.pi/180
+    const I = (i + di * t) * Math.PI/180
     L = (L + dL * t) * Math.pi/180
-    peri = (peri + dL * t) * Math.pi/180
-    Omega = (anode + danode * t) * Math.pi/180
+    peri = (peri + dL * t) * Math.PI/180
+    const Omega = (anode + danode * t) * Math.PI/180
 
-    W = peri - Omega
-    M = L - peri 
-    E_0 = M + e * Math.sin(M)
-    E = E_0
+    const W = peri - Omega
+    const M = L - peri 
+    let E_0 = M + e * Math.sin(M)
+    let E = E_0
 
-    while (Math.abs(E) >= 10e-6 * Math.pi/180) {
-        dM = M - (E - e * Math.sin(E))
-        dE = dM/(1- Math.cos(E))
+    while (Math.abs(E) >= 10e-6 * Math.PI/180) {
+        const dM = M - (E - e * Math.sin(E))
+        const dE = dM/(1- Math.cos(E))
         E = E + dE
     }
 
@@ -127,7 +127,6 @@ function Orrery ({className}) {
         // PresentationControls (helper from drei library) allows us to create a simple 3d model render
         <div className={className}>
         <Canvas dpr={[1,2]} shadows camera={{ fov: 45 }} style={{"position": "absolute"}}> 
-            <color attach="background" args={["#101010"]} />
         <PresentationControls speed={1.5} global zoom={.5} polar={[-0.1, Math.PI / 4]}>
                 <Stage environment={null}>
                     <Model scale={0.01} />
