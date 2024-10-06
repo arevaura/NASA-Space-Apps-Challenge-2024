@@ -14,6 +14,7 @@
   height: 85vh;
   background-color: #121C31;
   border: 1px solid white;
+  overflow: hidden; 
 }
 
 .Orrery{
