@@ -55,8 +55,8 @@ function Popup({ visiblePlanet, closePopup}) {
         <div className="planetInfoDiv">
             <h2>{visiblePlanet.object || "Unnamed Object"}</h2>
             
-            <Canvas style={{ width: '100%', height: '100px' }} camaera={{ position:[0,0,0], fov: 10}}>
-                <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} />
+            <Canvas style={{ width: '100%', height: '200px' }} camera={{ position:[0,0,0], fov: 10}}>
+                <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} rotateSpeed={0.2} zoomSpeed={0.1}/>
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[5, 5, 5]} />
                 <SphereModel texturePath={visiblePlanet.texturePath} /> 
