@@ -27,13 +27,13 @@ function Popup() {
       {visiblePlanet === 'Mercury' && (
         <div id="planetInfoDiv" className="planetInfoDiv">
           <center><h1>Mercury</h1></center>
-          <p>Mercury is the closest planet to the Sun and the smallest planet in the Solar System.</p>
+          <p>Named after the roman messenger god, Mercury is the closest to the sun in a solar system. However, Mercury rotates very slowly(taking 59 earth days) while taking only 88 earth days to complete a full lap around the sun.</p>
         </div>
       )}
       {visiblePlanet === 'Venus' && (
         <div id="planetInfoDiv" className="planetInfoDiv">
           <center><h1>Venus</h1></center>
-          <p>Venus is the second planet from the Sun and is similar in structure and size to Earth.</p>
+          <p>Venus is the second planet from the Sun. It is very close in mass and size to Earth. However there are some key differences. Venus has 90 times the atomespheric pressure on Earth, Venus is the hottest planet in our solar system.</p>
         </div>
       )}
       {visiblePlanet === 'Earth' && (

@@ -1,45 +1,52 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-
-
-function Model(props) {
-    const {scene} = useGLTF("/models/mars.glb") // the scene is what the 3d object is, useGLTF is a react hook
-    return <primitive object={scene} {...props} /> // 
-}
 
 // Function to calculate position based on Keplerian parameters
 function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
     // updates with time
     a = a + da * t
     e = e + de * t
-    I = (i + di * t) * Math.pi/180
-    L = (L + dL * t) * Math.pi/180
-    peri = (peri + dL * t) * Math.pi/180
-    Omega = (anode + danode * t) * Math.pi/180
+    const I = (i + di * t) * Math.PI/180
+    L = (L + dL * t) * Math.PI/180
+    const w = (peri + dperi * t) * Math.PI/180
+    const Omega = (anode + danode * t) * Math.PI/180
 
-    W = peri - Omega
-    M = L - peri 
-    E_0 = M + e * Math.sin(M)
-    E = E_0
+    const W = w - Omega
+    const M = L - w 
+    let E_0 = M + e * Math.sin(M)
+    let E = E_0
 
-    while (Math.abs(E) >= 10e-6 * Math.pi/180) {
-        dM = M - (E - e * Math.sin(E))
-        dE = dM/(1- Math.cos(E))
-        E = E + dE
+    let maxIterations = 100; // Maximum number of iterations for Kepler's equation
+    let tolerance = 1e-6 * Math.PI / 180; // Desired tolerance for Kepler's equation
+
+    for (let iteration = 0; iteration < maxIterations; iteration++) {
+        const delta = (M - (E - e * Math.sin(E))) / (1 - e * Math.cos(E));
+        E = E + delta;
+    
+        // Check for convergence
+        if (Math.abs(delta) < tolerance) {
+            break; // Exit the loop if within the desired tolerance
+        }
+    
+        // Optional: Log a warning if convergence is not achieved within maxIterations
+        if (iteration === maxIterations - 1) {
+            console.warn(`Kepler's equation did not converge after ${maxIterations} iterations for body with a=${a} and e=${e}`);
+        }
     }
 
+
     const xOrbital = a * (Math.cos(E - e))
-    const yOrbital = a * Math.sqrt(1-e**2)
+    const yOrbital = a * Math.sqrt(1-e**2) * Math.sin(E)
 
     // Coordinates in the J200 ecliptic plane
 
-    const x = (cosW * cosOmega - sinW * sinOmega * cosI) * xOrbital +
-              (-sinW * cosOmega - cosW * sinOmega * cosI) * yOrbital;
-    const y = (cosW * sinOmega + sinW * cosOmega * cosI) * xOrbital +
-              (-sinW * sinOmega + cosW * cosOmega * cosI) * yOrbital;
-    const z = (sinW * sinI) * xOrbital + (cosW * sinI) * yOrbital;
+    const x = (Math.cos(W) * Math.cos(Omega) - Math.sin(W) * Math.sin(Omega) * Math.cos(I)) * xOrbital +
+              (-Math.sin(W) * Math.cos(Omega) - Math.cos(W) * Math.sin(Omega) * Math.cos(I)) * yOrbital;
+    const y = (Math.cos(W) * Math.sin(Omega) + Math.sin(W) * Math.cos(Omega) * Math.cos(I)) * xOrbital +
+              (-Math.sin(W) * Math.sin(Omega) + Math.cos(W) * Math.cos(Omega) * Math.cos(I)) * yOrbital;
+    const z = (Math.sin(W) * Math.sin(I)) * xOrbital + (Math.cos(W) * Math.sin(I)) * yOrbital;
     
     /*
     const mu = 1; // Gravitational parameter (simplified)
@@ -47,7 +54,7 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     const M = n * t; // Mean anomaly
     nu += M; // True anomaly updating over time
 
-    const r = (a * (1 - Math.pow(e, 2))) / (1 + e * Math.cos(nu)); // Orbital radius
+    const r = (a * (1 - Math.pow(e, 2))) / (1 + e * Math.cos(nu)); // Orbital radius    
     const xOrbital = r * Math.cos(nu);
     const yOrbital = r * Math.sin(nu);
 
@@ -69,6 +76,7 @@ function KeplerianOrrery() {
         const fetchOrbitingBodies = async () => {
             const response = await fetch("/planets.json");
             const data = await response.json();
+            // const orbitingArray = Object.values(data);
             setOrbitingBodies(data); // Assuming 'data' is an array of Keplerian parameter objects
         };
 
@@ -100,14 +108,14 @@ function KeplerianOrrery() {
 // Orbiting body component
 function OrbitingBody({ keplerianParams, scale }) {
     const bodyRef = useRef();
-    const { a, e, i, omega, Omega, nu } = keplerianParams;
-
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode } = keplerianParams;
+    
     const TIME_SCALE = 10; // Simulated days per real second
 
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
         const t = elapsedTime * TIME_SCALE; // Simulated time in days
-        const position = calculateOrbitPosition(elapsedTime, a, e, i, omega, Omega, nu);
+        const position = calculateOrbitPosition(elapsedTime, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
         bodyRef.current.position.copy(position);
     });
 
@@ -119,25 +127,4 @@ function OrbitingBody({ keplerianParams, scale }) {
     );
 }
 
-
-function Orrery ({className}) {
-    return (
-        // Canvas has properties which allow us to pick how the 3d gets rendered
-        // dpr is device pixel ratio
-        // PresentationControls (helper from drei library) allows us to create a simple 3d model render
-        <div className={className}>
-        <Canvas dpr={[1,2]} shadows camera={{ fov: 45 }} style={{"position": "absolute"}}> 
-            <color attach="background" args={["#101010"]} />
-        <PresentationControls speed={1.5} global zoom={.5} polar={[-0.1, Math.PI / 4]}>
-                <Stage environment={null}>
-                    <Model scale={0.01} />
-                </Stage>
-            </PresentationControls>
-        </Canvas>
-        </div>
-    )
-}
-
-export default Orrery;
-
-
+export default KeplerianOrrery;
