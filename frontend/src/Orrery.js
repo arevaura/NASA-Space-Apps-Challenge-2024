@@ -67,7 +67,7 @@ function KeplerianOrrery() {
     // Fetching Keplerian parameters from an API
     useEffect(() => {
         const fetchOrbitingBodies = async () => {
-            const response = await fetch("https://api.example.com/orbits");
+            const response = await fetch("/planets.json");
             const data = await response.json();
             setOrbitingBodies(data); // Assuming 'data' is an array of Keplerian parameter objects
         };
