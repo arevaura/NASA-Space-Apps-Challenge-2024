@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import Popup from "./Popups.js";
 import Logo from './Logo.svg'
 import PlanetSample from './PlanetSample.js';
+import KeplerianOrrery from './Orrery.js';
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
       <div className="container">
         
         <Popup/>
-        <PlanetSample className="Orrery"/>
+        <KeplerianOrrery className="Orrery"/>
         </div>
       </div>
     

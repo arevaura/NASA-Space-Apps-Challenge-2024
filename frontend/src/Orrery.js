@@ -9,7 +9,7 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     a = a + da * t
     e = e + de * t
     const I = (i + di * t) * Math.PI/180
-    L = (L + dL * t) * Math.pi/180
+    L = (L + dL * t) * Math.PI/180
     const w = (peri + dperi * t) * Math.PI/180
     const Omega = (anode + danode * t) * Math.PI/180
 
@@ -18,12 +18,24 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     let E_0 = M + e * Math.sin(M)
     let E = E_0
 
+    let maxIterations = 100; // Maximum number of iterations for Kepler's equation
+    let tolerance = 1e-6 * Math.PI / 180; // Desired tolerance for Kepler's equation
 
-    while (Math.abs(E) >= 10e-6 * Math.PI/180) {
-        const dM = M - (E - e * Math.sin(E))
-        const dE = dM/(1- Math.cos(E))
-        E = E + dE
+    for (let iteration = 0; iteration < maxIterations; iteration++) {
+        const delta = (M - (E - e * Math.sin(E))) / (1 - e * Math.cos(E));
+        E = E + delta;
+    
+        // Check for convergence
+        if (Math.abs(delta) < tolerance) {
+            break; // Exit the loop if within the desired tolerance
+        }
+    
+        // Optional: Log a warning if convergence is not achieved within maxIterations
+        if (iteration === maxIterations - 1) {
+            console.warn(`Kepler's equation did not converge after ${maxIterations} iterations for body with a=${a} and e=${e}`);
+        }
     }
+
 
     const xOrbital = a * (Math.cos(E - e))
     const yOrbital = a * Math.sqrt(1-e**2) * Math.sin(E)
