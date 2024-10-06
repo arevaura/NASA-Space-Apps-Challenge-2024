@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import "./Popups.css";
+import { useGLTF } from "@react-three/drei";
+
+function GLBModel({ path }) {
+    const { scene } = useGLTF(path);
+    return <primitive object={scene} />;
+}
 
 const planets = [
     {
@@ -55,8 +61,11 @@ function Popup({ visiblePlanet, closePopup}) {
     return (
         <div className="planetInfoDiv">
             <h2>{visiblePlanet.object || "Unnamed Object"}</h2>
-            <p>{/* other properties etc.*/}</p>
-            {/* Conditional rendering for each planet's information */}
+            {visiblePlanet.glbFilePath && ( // conditionally render GLB model
+                <GLBModel path={visiblePlanet.glbFile} />
+            )}
+            <p>{visiblePlanet.description || "No description available."}</p>
+            {/* Conditional rendering for each planet's information 
             
             {planets.map(planet => (
                 visiblePlanet === planet.name && (
@@ -67,6 +76,8 @@ function Popup({ visiblePlanet, closePopup}) {
                     </div>
                 )
             ))}
+            */}
+
             <button onClick={closePopup}>Close</button>
         </div>
     );

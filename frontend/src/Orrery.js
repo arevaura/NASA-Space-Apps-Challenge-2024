@@ -3,7 +3,6 @@ import { useGLTF, Stage, OrbitControls, Line } from "@react-three/drei";
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 import Popup from './Popups.js';
-import { seededRandom } from "three/src/math/MathUtils.js";
 
 // Function to calculate position based on Keplerian parameters
 function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
@@ -72,6 +71,7 @@ function OrbitLine({ a, e, i, planetInfo, onClick }) {
     }
 
     const handleOrbitClick = (e) => {
+        console.log('Clicked planet info:', planetInfo);
         e.stopPropagation();
         onClick(planetInfo);
     };
@@ -154,7 +154,7 @@ function KeplerianOrrery() {
 // Orbiting body component
 function OrbitingBody({ keplerianParams, onClick }) {
     const bodyRef = useRef();
-    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size, object } = keplerianParams;
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size, object, description, glbFile } = keplerianParams;
 
     const TIME_SCALE = 0.0005; // Simulated days per real second
 
@@ -194,7 +194,11 @@ function OrbitingBody({ keplerianParams, onClick }) {
             </mesh>
 
             <OrbitLine a={a} e={e} i={i} 
-            planetInfo={{object}}
+            planetInfo={{
+                object, 
+                description: keplerianParams.description, 
+                glbFile: keplerianParams.glbFile
+            }}
             onClick={onClick}
             /> 
         </>
