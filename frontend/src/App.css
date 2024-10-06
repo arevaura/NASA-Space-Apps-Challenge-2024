@@ -5,7 +5,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
   font-family: 'Trebuchet MS', sans-serif;
-  margin: -20px;
+  margin: 0px;
 }
 
 .container {
@@ -14,6 +14,7 @@
   height: 85vh;
   background-color: #121C31;
   border: 1px solid white;
+  overflow: hidden;
 }
 
 .Orrery{
