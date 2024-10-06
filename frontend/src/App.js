@@ -17,11 +17,13 @@ function App() {
   })
 
   return (
+    
     <div className="App">
       <div className="header">
         <p>Capuchins | Orrery</p>
       </div>
-      <div className='container'>
+      <div className="container">
+        <Orrery className="Orrery"/>
         <Popup/>
         </div>
       </div>
