@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/NASA-Space-Apps-Challenge-2024/static/css/main.54928f46.css",
+    "main.js": "/NASA-Space-Apps-Challenge-2024/static/js/main.2dd994e3.js",
+    "static/js/453.8ab44547.chunk.js": "/NASA-Space-Apps-Challenge-2024/static/js/453.8ab44547.chunk.js",
+    "static/media/Logo.svg": "/NASA-Space-Apps-Challenge-2024/static/media/Logo.cef72fdb3d68a7b33a1d9a65773e5304.svg",
+    "index.html": "/NASA-Space-Apps-Challenge-2024/index.html",
+    "main.54928f46.css.map": "/NASA-Space-Apps-Challenge-2024/static/css/main.54928f46.css.map",
+    "main.2dd994e3.js.map": "/NASA-Space-Apps-Challenge-2024/static/js/main.2dd994e3.js.map",
+    "453.8ab44547.chunk.js.map": "/NASA-Space-Apps-Challenge-2024/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.54928f46.css",
+    "static/js/main.2dd994e3.js"
+  ]
+}
