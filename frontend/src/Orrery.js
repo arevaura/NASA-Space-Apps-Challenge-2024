@@ -16,11 +16,11 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     e = e + de * t
     const I = (i + di * t) * Math.PI/180
     L = (L + dL * t) * Math.pi/180
-    peri = (peri + dL * t) * Math.PI/180
+    const w = (peri + dperi * t) * Math.PI/180
     const Omega = (anode + danode * t) * Math.PI/180
 
-    const W = peri - Omega
-    const M = L - peri 
+    const W = w - Omega
+    const M = L - w 
     let E_0 = M + e * Math.sin(M)
     let E = E_0
 
@@ -100,8 +100,8 @@ function KeplerianOrrery() {
 // Orbiting body component
 function OrbitingBody({ keplerianParams, scale }) {
     const bodyRef = useRef();
-    const { a, e, i, omega, Omega, nu } = keplerianParams;
-
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode } = keplerianParams;
+    
     const TIME_SCALE = 10; // Simulated days per real second
 
     useFrame(({ clock }) => {
