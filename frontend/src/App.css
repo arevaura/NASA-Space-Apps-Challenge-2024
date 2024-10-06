@@ -21,7 +21,7 @@
     background-color: #121C31;
     border: 1px solid white;
     overflow: hidden; /* Prevents overflow */
-    position: relative;
+    position: relative; 
   }
   
   .Orrery {
