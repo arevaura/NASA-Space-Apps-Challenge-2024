@@ -15,7 +15,6 @@
         "danode": -0.12534081,
         "texturePath": "/textures/mercury.jpg",
         "glbFile": "/models/mercury.glb",
-        "description": "Mercury is the smallest planet in our solar system, only slightly larger than Earth’s Moon. Named after the Roman messenger god, it is the closest planet to the Sun. However, Mercury rotates very slowly, taking 59 Earth days to complete one rotation, while it takes just 88 Earth days to orbit the Sun. This results in extreme temperature variations, with daytime temperatures soaring to over 427 degrees Celsius and dropping to nearly -201 degrees Celsius at night.",
         "size": 0.014016,
         "real": 0.001752,
         "description": "Mercury is the smallest planet in our solar system, only slightly larger than Earth’s Moon. Named after the Roman messenger god, it is the closest planet to the Sun. However, Mercury rotates very slowly, taking 59 Earth days to complete one rotation, while it takes just 88 Earth days to orbit the Sun. This results in extreme temperature variations, with daytime temperatures soaring to over 427 degrees Celsius and dropping to nearly -201 degrees Celsius at night."
@@ -177,7 +176,7 @@
         "texturePath": "/textures/pluto.jpg",
         "glbFile": "/models/pluto.glb",
         "size": 0.00609933333,
-        "real": 0.00228725,
+        "real": 0.00228725
         "description": "Pluto is a dwarf planet. It’s about 2,377 kilometers wide, which is even smaller than the Moon. Pluto orbits the Sun at an average distance of about 4.6 billion kilometers, taking around 248 Earth years to complete one orbit. It’s made mostly of ice and rock, with a surface temperature of -230°C! Pluto has five known moons, with Charon being the largest, and they are so big compared to Pluto that they almost look like a double planet. In 2006, Pluto was reclassified from a planet to a dwarf planet because it doesn’t clear its orbit of other objects like the eight major planets do. "
     }
 ]
