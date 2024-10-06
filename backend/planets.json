@@ -82,7 +82,7 @@
         "anode": 100.47390909,
         "danode": 0.20469106,
         "texturePath": "/textures/jupiter.jpg",
-        "size": 0.50199
+        "size": 0.050199
     },
     {
         "object": "Saturn",
@@ -99,7 +99,7 @@
         "anode": 113.66242448,
         "danode": -0.28867794,
         "texturePath": "/textures/saturn.jpg",
-        "size": 0.41813
+        "size": 0.041813
     },
     {
         "object": "Uranus",
@@ -116,7 +116,7 @@
         "anode": 74.01692503,
         "danode": 0.04240589,
         "texturePath": "/textures/uranus.jpg",
-        "size": 0.18211
+        "size": 0.018211
     },
     {
         "object": "Neptune",
@@ -133,7 +133,7 @@
         "anode": 131.78422574,
         "danode": -0.00508664,
         "texturePath": "/textures/neptune.jpg",
-        "size": 0.176795
+        "size": 0.0176795
     },
     {
         "object": "Pluto",
