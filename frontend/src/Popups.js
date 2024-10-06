@@ -8,13 +8,13 @@ const planets = [
     },
     {
         name: 'Venus',
-        description: "Venus is the second planet from the Sun and is similar in mass and size to Earth, often referred to as Earth's "sister planet." However, key differences set them apart. Venus has an atmosphere with 90 times the pressure of Earth's, composed mainly of carbon dioxide and thick clouds of sulfuric acid. This results in a runaway greenhouse effect, making Venus the hottest planet in our solar system, with surface temperatures exceeding 900 degrees Fahrenheit (475 degrees Celsius)."
+        description: "Venus is the second planet from the Sun and is similar in mass and size to Earth, often referred to as Earth's 'sister planet. However, key differences set them apart. Venus has an atmosphere with 90 times the pressure of Earth's, composed mainly of carbon dioxide and thick clouds of sulfuric acid. This results in a runaway greenhouse effect, making Venus the hottest planet in our solar system, with surface temperatures exceeding 900 degrees Fahrenheit (475 degrees Celsius)."
     },
     {
         name: 'Earth',
         description: "Earth is the third planet from the Sun and the only known planet to support life. It has a diverse climate, varying ecosystems, and abundant water, covering about 71% of its surface. Earth has one natural satellite, the Moon, which influences the planet's tides and stabilizes its axial tilt."
     },
-    {
+    {   
         name: 'Mars',
         description: "Mars, often called “the Red Planet” due to its iron oxide dust, is a terrestrial planet featuring extinct volcanoes and vast canyons. A day on Mars lasts about 24.5 hours, making it quite similar to Earth. The planet has the largest volcano in the solar system, Olympus Mons, which stands about 21.8 kilometres high. Mars is also home to the longest canyon, Valles Marineris, stretching over 4000 kilometres. Since the late 20th century, Mars has been explored by numerous uncrewed spacecraft and rovers, and as of 2023, over 11 active probes are studying the planet. While Mars remains a key target for future human missions, none are currently planned."
     },
