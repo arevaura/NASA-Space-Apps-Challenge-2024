@@ -10,7 +10,7 @@ function Model(props) {
 }
 
 // Function to calculate position based on Keplerian parameters
-function calculateOrbitPosition("t", "a", "da", "e", "de", "i", "di", "L", "dL", "peri", "dperi", "anode", "danode") {
+function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
     // updates with time
     a = a + da * t
     e = e + de * t
@@ -139,5 +139,3 @@ function Orrery ({className}) {
 }
 
 export default Orrery;
-
-
