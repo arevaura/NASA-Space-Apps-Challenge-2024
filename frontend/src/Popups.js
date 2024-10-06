@@ -53,7 +53,7 @@ function Popup() {
                 {/* Buttons to toggle visibility for each planet */}
                 {planets.map(planet => (
                     <button key={planet.name} onClick={() => toggleInfo(planet.name)}>
-                        {planet.name}
+                        {planet.name    }
                     </button>
                 ))}
             </center>
