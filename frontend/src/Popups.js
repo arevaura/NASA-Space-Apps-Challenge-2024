@@ -4,35 +4,39 @@ import "./Popups.css";
 const planets = [
     {
         name: 'Mercury',
-        description: "Named after the Roman messenger god, Mercury is the closest to the sun in the solar system. However, Mercury rotates very slowly (taking 59 Earth days) while taking only 88 Earth days to complete a full lap around the sun."
+        description: "Mercury is the smallest planet in our solar system, only slightly larger than Earth’s Moon. Named after the Roman messenger god, it is the closest planet to the Sun. However, Mercury rotates very slowly, taking 59 Earth days to complete one rotation, while it takes just 88 Earth days to orbit the Sun. This results in extreme temperature variations, with daytime temperatures soaring to over 427 degrees Celsius and dropping to nearly -201 degrees Celsius at night."
     },
     {
         name: 'Venus',
-        description: "Venus is the second planet from the Sun. It is very close in mass and size to Earth. However, there are some key differences: Venus has 90 times the atmospheric pressure of Earth, and is the hottest planet in our solar system."
+        description: "Venus is the second planet from the Sun and is similar in mass and size to Earth, often referred to as Earth's "sister planet." However, key differences set them apart. Venus has an atmosphere with 90 times the pressure of Earth's, composed mainly of carbon dioxide and thick clouds of sulfuric acid. This results in a runaway greenhouse effect, making Venus the hottest planet in our solar system, with surface temperatures exceeding 900 degrees Fahrenheit (475 degrees Celsius)."
     },
     {
         name: 'Earth',
-        description: "Earth is the third planet from the Sun and the only known planet to support life."
+        description: "Earth is the third planet from the Sun and the only known planet to support life. It has a diverse climate, varying ecosystems, and abundant water, covering about 71% of its surface. Earth has one natural satellite, the Moon, which influences the planet's tides and stabilizes its axial tilt."
     },
     {
         name: 'Mars',
-        description: "Mars is the fourth planet from the Sun and is known as the Red Planet."
+        description: "Mars, often called “the Red Planet” due to its iron oxide dust, is a terrestrial planet featuring extinct volcanoes and vast canyons. A day on Mars lasts about 24.5 hours, making it quite similar to Earth. The planet has the largest volcano in the solar system, Olympus Mons, which stands about 21.8 kilometres high. Mars is also home to the longest canyon, Valles Marineris, stretching over 4000 kilometres. Since the late 20th century, Mars has been explored by numerous uncrewed spacecraft and rovers, and as of 2023, over 11 active probes are studying the planet. While Mars remains a key target for future human missions, none are currently planned."
     },
     {
         name: 'Jupiter',
-        description: "Jupiter is the largest planet in our solar system. If Jupiter was a hollow shell, 1,000 Earths could fit inside."
+        description: "Jupiter, the largest planet in the solar system, is known for its striking bands of clouds and the Great Red Spot, a massive storm that has been raging for centuries. This gas giant has a strong magnetic field and dozens of moons, with Ganymede being the largest, even surpassing the size of Mercury. A day on Jupiter lasts only about 10 hours, but its year is equivalent to 12 Earth years. Since the late 20th century, Jupiter has been explored by several spacecraft, including the Galileo orbiter and the Juno mission, which is currently studying the planet's atmosphere and magnetic field."
     },
     {
         name: 'Saturn',
-        description: "Saturn is the sixth planet from the Sun and is famous for its rings."
+        description: "Saturn is famous for its stunning ring system, composed of ice and rock particles. The second-largest planet in the solar system, Saturn is a gas giant with a thick atmosphere primarily made of hydrogen and helium. It has over 80 known moons, with Titan being the largest. A day on Saturn lasts about 10.7 hours, while it takes approximately 29.5 Earth years to complete an orbit around the Sun."
     },
     {
         name: 'Uranus',
-        description: "Uranus is the seventh planet from the Sun and has a unique blue color due to methane in its atmosphere."
+        description: "Uranus, the seventh planet from the Sun, is an ice giant known with a unique rotation. It spins nearly perpendicular to the plane of its orbit at an angle close to 90°. It is the third-largest planet in our solar system, with a diameter about four times that of Earth. Uranus has faint icy rings and more than two dozen small moons. It takes 84 Earth years to complete one orbit around the Sun. The planet's striking blue color comes from the methane in its atmosphere, and it is primarily composed of water, methane, and ammonia gases, with a small rocky core."
     },
     {
         name: 'Neptune',
-        description: "Neptune is the eighth and farthest planet from the Sun, known for its deep blue color."
+        description: "Neptune, the eighth and farthest planet from the Sun, is a gas giant known for its deep blue colour caused by methane in its atmosphere. It is nearly four times wider than Earth. Neptune experiences powerful storms, including the famous Great Dark Spot, a storm the size of Earth. The planet has 14 known moons, the largest being Triton, which orbits in the opposite direction of Neptune's rotation. It takes Neptune 165 Earth years to complete one orbit around the Sun, and its winds are the fastest in the solar system, reaching up to 2,100 kilometers per hour!"
+    },
+    {
+        name: 'Sun',
+        description: "The Sun is a vast ball of gas and plasma that provides light and warmth to our solar system. It is a medium-sized star and accounts for about 99.86% of the solar system's total mass. The Sun's core reaches temperatures of around 15 million degrees Celsius, driving nuclear fusion reactions that produce the energy that fuels all life on Earth."
     }
 ];
 
