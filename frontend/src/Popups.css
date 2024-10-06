@@ -2,11 +2,13 @@
     display: flex;
     flex-direction: column;
     padding: 0; /* Padding can be adjusted as needed */
-    background-color: #121C31;
-    border: 1px solid white;
+    background-color: #0b1220;
     width: 25vw; /* Keep this if it fits your design */
     height: 175%; /* Allow height to adjust based on content */
     margin: 30px; /* Adjust margins if needed */
+    position: fixed;
+    z-index: 2;
+
 }
 
 .planetInfo {

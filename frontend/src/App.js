@@ -23,8 +23,9 @@ function App() {
         <p>Capuchins | Orrery</p>
       </div>
       <div className="container">
-        <Orrery className="Orrery"/>
+        
         <Popup/>
+        <Orrery className="Orrery"/>
         </div>
       </div>
     
