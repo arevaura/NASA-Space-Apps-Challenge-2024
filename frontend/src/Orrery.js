@@ -10,7 +10,7 @@ function Model(props) {
 }
 
 // Function to calculate position based on Keplerian parameters
-function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
+function calculateOrbitPosition("t", "a", "da", "e", "de", "i", "di", "L", "dL", "peri", "dperi", "anode", "danode") {
     // updates with time
     a = a + da * t
     e = e + de * t
@@ -35,11 +35,11 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
 
     // Coordinates in the J200 ecliptic plane
 
-    const x = (cosW * cosOmega - sinW * sinOmega * cosI) * xOrbital +
-              (-sinW * cosOmega - cosW * sinOmega * cosI) * yOrbital;
-    const y = (cosW * sinOmega + sinW * cosOmega * cosI) * xOrbital +
-              (-sinW * sinOmega + cosW * cosOmega * cosI) * yOrbital;
-    const z = (sinW * sinI) * xOrbital + (cosW * sinI) * yOrbital;
+    const x = (Math.cos(W) * Math.cos(Omega) - Math.sin(W) * Math.sin(Omega) * Math.cos(I)) * xOrbital +
+              (-Math.sin(W) * Math.cos(Omega) - Math.cos(W) * Math.sin(Omega) * Math.cos(I)) * yOrbital;
+    const y = (Math.cos(W) * Math.sin(Omega) + Math.sin(W) * Math.cos(Omega) * Math.cos(I)) * xOrbital +
+              (-Math.sin(W) * Math.sin(Omega) + Math.cos(W) * Math.cos(Omega) * Math.cos(I)) * yOrbital;
+    const z = (Math.sin(W) * Math.sin(I)) * xOrbital + (Math.cos(W) * Math.sin(I)) * yOrbital;
     
     /*
     const mu = 1; // Gravitational parameter (simplified)
