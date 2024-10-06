@@ -101,11 +101,11 @@ function Orrery ({className}) {
         // PresentationControls (helper from drei library) allows us to create a simple 3d model render
         <div className={className}>
             <Canvas dpr={[1,2]} shadows camera={{ fov: 45 }} style={{"position": "absolute"}}> 
-            <PresentationControls speed={1.5} global zoom={.5} polar={[-0.1, Math.PI / 4]}>
-                <Stage environment={null}>
-                    <Model scale={0.01} />
-                </Stage>
-            </PresentationControls>
+                <PresentationControls speed={1.5} global zoom={.5} polar={[-0.1, Math.PI / 4]}>
+                    <Stage environment={null}>
+                        <Model scale={0.01} />
+                    </Stage>
+                </PresentationControls>
             </Canvas>
         </div>
     )
