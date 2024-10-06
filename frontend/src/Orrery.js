@@ -18,6 +18,7 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     let E_0 = M + e * Math.sin(M)
     let E = E_0
 
+
     while (Math.abs(E) >= 10e-6 * Math.PI/180) {
         const dM = M - (E - e * Math.sin(E))
         const dE = dM/(1- Math.cos(E))
@@ -25,7 +26,7 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     }
 
     const xOrbital = a * (Math.cos(E - e))
-    const yOrbital = a * Math.sqrt(1-e**2)
+    const yOrbital = a * Math.sqrt(1-e**2) * Math.sin(E)
 
     // Coordinates in the J200 ecliptic plane
 
@@ -63,6 +64,7 @@ function KeplerianOrrery() {
         const fetchOrbitingBodies = async () => {
             const response = await fetch("/planets.json");
             const data = await response.json();
+            // const orbitingArray = Object.values(data);
             setOrbitingBodies(data); // Assuming 'data' is an array of Keplerian parameter objects
         };
 
@@ -101,7 +103,7 @@ function OrbitingBody({ keplerianParams, scale }) {
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
         const t = elapsedTime * TIME_SCALE; // Simulated time in days
-        const position = calculateOrbitPosition(elapsedTime,  a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
+        const position = calculateOrbitPosition(elapsedTime, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
         bodyRef.current.position.copy(position);
     });
 
@@ -113,4 +115,4 @@ function OrbitingBody({ keplerianParams, scale }) {
     );
 }
 
-export default OrbitingBody;
+export default KeplerianOrrery;
