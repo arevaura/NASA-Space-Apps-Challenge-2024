@@ -47,7 +47,7 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     const M = n * t; // Mean anomaly
     nu += M; // True anomaly updating over time
 
-    const r = (a * (1 - Math.pow(e, 2))) / (1 + e * Math.cos(nu)); // Orbital radius
+    const r = (a * (1 - Math.pow(e, 2))) / (1 + e * Math.cos(nu)); // Orbital radius    
     const xOrbital = r * Math.cos(nu);
     const yOrbital = r * Math.sin(nu);
 
