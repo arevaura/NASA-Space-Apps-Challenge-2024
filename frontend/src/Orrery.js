@@ -80,7 +80,7 @@ function OrbitLine({ a, e, i, planetInfo, onClick }) {
         <Line 
             points={points} 
             color="lightblue" 
-            lineWidth={1} 
+            lineWidth={2} 
             onPointerDown={handleOrbitClick} // Directly handle the click
             onPointerOver={(e) => (e.object.material.color.set('orange'))}
             onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
