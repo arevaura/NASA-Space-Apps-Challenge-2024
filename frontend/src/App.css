@@ -1,26 +1,32 @@
 .App {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  font-family: 'Trebuchet MS', sans-serif;
-  margin: 0px;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 85vh;
-  background-color: #121C31;
-  border: 1px solid white;
-  overflow: hidden;
-}
-
-.Orrery{
-  width: 100%;  /* Orrery takes full width of container */
-  max-width: 100%;
-  height: 100%; /* Orrery takes full height of container */
-  box-sizing: border-box;
-  overflow: hidden;
-}
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    font-family: 'Trebuchet MS', sans-serif;
+    margin: 0; /* Reset margin */
+  }
+  
+  body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 85vh; /* Keep this for your desired layout */
+    background-color: #121C31;
+    border: 1px solid white;
+    overflow: hidden; /* Prevents overflow */
+  }
+  
+  .Orrery {
+    width: 80vw; /* Takes 80% of viewport width */
+    height: 100%; /* Fill the container's height */
+    box-sizing: border-box; /* Include padding and border in width/height */
+    overflow: hidden; /* Prevent overflow */
+    padding: 0; /* Reset padding */
+    margin: 0; /* Reset margin */
+  }
+  
