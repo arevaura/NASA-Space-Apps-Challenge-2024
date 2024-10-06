@@ -4,7 +4,7 @@ import './App.css';
 import Orrery from './Orrery.js';
 import { useEffect } from 'react';
 import Popup from "./Popups.js";
-
+import Logo from './Logo.svg'
 
 function App() {
 
@@ -20,7 +20,10 @@ function App() {
     
     <div className="App">
       <div className="header">
-        <p>Capuchins | Orrery</p>
+        <p>
+          <img src={Logo} style={{ height: 50, width: 50}} alt="Capuchins logo"/> 
+          Capuchins | Orrery
+        </p>
       </div>
       <div className="container">
         
