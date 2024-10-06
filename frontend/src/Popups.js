@@ -8,7 +8,9 @@ const planets = [
     },
     {
         name: 'Venus',
+
         description: "Venus is the second planet from the Sun and is similar in mass and size to Earth, often referred to as Earth's 'sister planet. However, key differences set them apart. Venus has an atmosphere with 90 times the pressure of Earth's, composed mainly of carbon dioxide and thick clouds of sulfuric acid. This results in a runaway greenhouse effect, making Venus the hottest planet in our solar system, with surface temperatures exceeding 900 degrees Fahrenheit (475 degrees Celsius)."
+
     },
     {
         name: 'Earth',
