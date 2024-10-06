@@ -3,12 +3,6 @@ import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
-
-function Model(props) {
-    const {scene} = useGLTF("/models/mars.glb") // the scene is what the 3d object is, useGLTF is a react hook
-    return <primitive object={scene} {...props} /> // 
-}
-
 // Function to calculate position based on Keplerian parameters
 function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
     // updates with time
@@ -107,7 +101,7 @@ function OrbitingBody({ keplerianParams, scale }) {
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
         const t = elapsedTime * TIME_SCALE; // Simulated time in days
-        const position = calculateOrbitPosition(elapsedTime, a, e, i, omega, Omega, nu);
+        const position = calculateOrbitPosition(elapsedTime,  a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
         bodyRef.current.position.copy(position);
     });
 
@@ -119,22 +113,4 @@ function OrbitingBody({ keplerianParams, scale }) {
     );
 }
 
-
-function Orrery ({className}) {
-    return (
-        // Canvas has properties which allow us to pick how the 3d gets rendered
-        // dpr is device pixel ratio
-        // PresentationControls (helper from drei library) allows us to create a simple 3d model render
-        <div className={className}>
-        <Canvas dpr={[1,2]} shadows camera={{ fov: 45 }} style={{"position": "absolute"}}> 
-        <PresentationControls speed={1.5} global zoom={.5} polar={[-0.1, Math.PI / 4]}>
-                <Stage environment={null}>
-                    <Model scale={0.01} />
-                </Stage>
-            </PresentationControls>
-        </Canvas>
-        </div>
-    )
-}
-
-export default Orrery;
+export default OrbitingBody;
