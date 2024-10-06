@@ -10,14 +10,14 @@ function Model(props) {
 }
 
 // Function to calculate position based on Keplerian parameters
-function calculateOrbitPosition(a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
+function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
     // updates with time
     a = a + da * t
     e = e + de * t
     I = (i + di * t) * Math.pi/180
     L = (L + dL * t) * Math.pi/180
     peri = (peri + dL * t) * Math.pi/180
-    Omega = (anode + danode * t * Math.pi/180
+    Omega = (anode + danode * t) * Math.pi/180
 
     W = peri - Omega
     M = L - peri 
@@ -118,7 +118,7 @@ function OrbitingBody({ keplerianParams, scale }) {
         </mesh>
     );
 }
-*/
+
 
 function Orrery ({className}) {
     return (
