@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Stage, OrbitControls, Line } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 
 // Function to calculate position based on Keplerian parameters
@@ -72,6 +72,8 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
 // Orbit Line Component
 function OrbitLine({ a, e, i, onClick }) {
     const points = [];
+    const hitboxPoints =[];
+
     for (let angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
         const r = (a * (1 - e ** 2)) / (1 + e * Math.cos(angle));
         const x = r * Math.cos(angle);
@@ -84,17 +86,60 @@ function OrbitLine({ a, e, i, onClick }) {
         const orbitZ = y * Math.sin(I);
 
         points.push(new THREE.Vector3(orbitX, orbitY, orbitZ));
-    }
 
+        // const hitboxRadius = 0.1;
+        // hitboxPoints.push(new THREE.Vector3(orbitX + hitboxRadius , orbitY + hitboxRadius * Math.cos(I), orbitZ + hitboxRadius * Math.sin(I)));
+
+    }
+    
+    /*
+    const arePointsEqual = points.length === hitboxPoints.length && points.every((point, index) => {
+        const hitboxPoint = hitboxPoints[index];
+        return point.equals(hitboxPoint); // Compare the vector3 objects
+    });
+
+    if (arePointsEqual) {
+        console.log("true");
+    }
+    */
+
+    const handleOrbitClick = (e) => {
+        e.stopPropagation();
+
+        const mousePos = new THREE.Vector2();
+        mousePos.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mousePos, e.camera);
+
+        const intersects = points.map((point, index) => {
+            if (index === 0) return null;
+            const segment = new THREE.Line3(points[index - 1], points[index]);
+            return segment.closestPointToPoint(raycaster.ray.origin, true);
+        }).filter(Boolean);
+
+        const distanceThreshold = 0.1;
+        const isCloseEnough = intersects.some(point => {
+            return point.distanceTo(raycaster.ray.origin) < distanceThreshold;
+        });
+
+        if (isCloseEnough) {
+            alert(`Orbiting body with parameters:\nSemi-Major Axis: ${a}\nEccentricity: ${e}`);
+        }
+    };
     return (
-        <Line 
-            points={points} 
-            color="lightblue" 
-            lineWidth={1} 
-            onPointerDown={onClick} 
-            onPointerOver={(e) => (e.object.material.color.set('orange'))}
-            onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
-        />
+        <>
+            {/* visible line*/}
+            <Line 
+                points={points} 
+                color="lightblue" 
+                lineWidth={1} 
+                onPointerDown={onClick} 
+                onPointerOver={(e) => (e.object.material.color.set('orange'))}
+                onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
+            />
+
+        </>
     );
 }
 
@@ -145,37 +190,54 @@ function KeplerianOrrery() {
     );
 }
 
-// Orbiting body component
+
 // Orbiting body component
 // Orbiting body component
 function OrbitingBody({ keplerianParams, scale }) {
     const bodyRef = useRef();
-    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode } = keplerianParams;
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size } = keplerianParams;
 
-    const TIME_SCALE = 0.001; // Simulated days per real second
+    const TIME_SCALE = 0.0005; // Simulated days per real second
+
+    // Load texture
+    const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
+    const [texture, setTexture] = useState(null);
+
+    useEffect(() => {
+        if (texturePath) {
+            console.log("Loading texture from:", texturePath); // Log the texture path
+            textureLoader.load(
+                texturePath, 
+                (loadedTexture) => {
+                    setTexture(loadedTexture);
+                },
+                undefined,
+                (err) => {
+                    console.error("Texture loading error for:", texturePath, err);
+                }
+            );
+        }
+    }, [texturePath]);
+
 
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
         const t = elapsedTime * TIME_SCALE; // Simulated time in days
-        const position = calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode);
+        const position = calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
         bodyRef.current.position.copy(position);
     });
 
-    const handleOrbitClick = (e) => {
-        e.stopPropagation(); // Prevent click event from bubbling up
-        alert(`Orbiting body with parameters:\nSemi-Major Axis: ${a}\nEccentricity: ${e}`);
-    };
-
     return (
         <>
-            <mesh ref={bodyRef} scale={scale}>
-                <sphereGeometry args={[0.1, 16, 16]} />
-                <meshStandardMaterial color="red" />
+            <mesh ref={bodyRef} scale={size}>
+                <sphereGeometry args={[1, 16, 16]} />
+                <meshStandardMaterial map={texture || new THREE.Texture()} />
             </mesh>
 
-            <OrbitLine a={a} e={e} i={i} onClick={handleOrbitClick} /> 
+            <OrbitLine a={a} e={e} i={i} /> 
         </>
     );
 }
-    
+
+
 export default KeplerianOrrery;
