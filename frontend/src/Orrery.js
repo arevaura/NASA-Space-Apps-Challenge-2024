@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Stage, OrbitControls, Line } from "@react-three/drei";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo, act } from "react";
 import * as THREE from "three";
 import Popup from './Popups.js';
 
@@ -94,6 +94,7 @@ function KeplerianOrrery() {
     const [orbitingBodies, setOrbitingBodies] = useState([]);
     const [visiblePlanet, setVisiblePlanet] = useState(null);
     const [timeScale, setTimeScale] = useState(0.0005);
+    const [realSize, setRealSize] = useState(false);
     const{ scene } = useGLTF("/models/sun.glb");
 
     // Fetching Keplerian parameters from an API
@@ -141,6 +142,7 @@ function KeplerianOrrery() {
                                 scale={[0.1, 0.1, 0.1]}
                                 onClick={handleOrbitClick}
                                 timeScale={timeScale}
+                                realSize={realSize}
                             />
                         ))}
                     </Stage>
@@ -159,6 +161,15 @@ function KeplerianOrrery() {
                 Days/Second: {timeScale.toFixed(5)}
             </p>
 
+            <label style={{ position: "absolute", top: 100, right: 20, color: "white" }}>
+                <input
+                    type="checkbox"
+                    checked={realSize}
+                    onChange={(e) => setRealSize(e.target.checked)}
+                />
+                Toggle Real Size
+            </label>
+
             {visiblePlanet && (
                 <Popup visiblePlanet={visiblePlanet} closePopup={closePopup} />
             )}
@@ -167,11 +178,12 @@ function KeplerianOrrery() {
 }
 
 // Orbiting body component
-function OrbitingBody({ keplerianParams, onClick, timeScale }) {
+function OrbitingBody({ keplerianParams, onClick, timeScale, realSize }) {
     const bodyRef = useRef();
-    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size, object, description, glbFile } = keplerianParams;
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size, object, description, glbFile, real } = keplerianParams;
 
     // const TIME_SCALE = 0.0005; // Simulated days per real second
+    const actualSize = realSize ? (real || size) : size;
 
     // Load texture
     const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
@@ -203,7 +215,7 @@ function OrbitingBody({ keplerianParams, onClick, timeScale }) {
 
     return (
         <>
-            <mesh ref={bodyRef} scale={size}>
+            <mesh ref={bodyRef} scale={[actualSize, actualSize, actualSize]}>
                 <sphereGeometry args={[1, 16, 16]} />
                 <meshStandardMaterial map={texture || new THREE.Texture()} />
             </mesh>
