@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
+import { useGLTF, Stage, OrbitControls } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -37,7 +37,7 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     }
 
 
-    const xOrbital = a * (Math.cos(E - e))
+    const xOrbital = a * (Math.cos(E) - e)
     const yOrbital = a * Math.sqrt(1-e**2) * Math.sin(E)
 
     // Coordinates in the J200 ecliptic plane
@@ -84,23 +84,25 @@ function KeplerianOrrery() {
     }, []);
 
     return (
-        <Canvas dpr={[1, 2]} shadows camera={{ fov: 45 }} style={{ position: "absolute" }}>
-            <color attach="background" args={["#101010"]} />
-            <ambientLight intensity={0.3} />
-            <directionalLight intensity={1} position={[5, 5, 5]} />
+        <Canvas dpr={[1, 2]} shadows camera={{ fov: 60 }} style={{ position: "absolute" }}>
+            <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} /> 
+                <Stage environment={null}>
+                    <ambientLight intensity={0.3} />
+                    <directionalLight intensity={1} position={[5, 5, 5]} />
 
-            <mesh position={[0, 0, 0]}>
-                <sphereGeometry args={[0.5, 32, 32]} />
-                <meshStandardMaterial color="yellow" />
-            </mesh>
+                    <mesh position={[0, 0, 0]} scale={0.1}>
+                        <sphereGeometry args={[0.5, 32, 32]} />
+                        <meshStandardMaterial color="yellow" />
+                    </mesh>
 
-            {orbitingBodies.map((body, index) => (
-                <OrbitingBody
-                    key={index}
-                    keplerianParams={body} // Passing each object's parameters
-                    scale={[0.1, 0.1, 0.1]}
-                />
-            ))}
+                    {orbitingBodies.map((body, index) => (
+                        <OrbitingBody
+                            key={index}
+                            keplerianParams={body} // Passing each object's parameters
+                            scale={[0.1, 0.1, 0.1]}
+                        />
+                    ))}
+                </Stage>
         </Canvas>
     );
 }
