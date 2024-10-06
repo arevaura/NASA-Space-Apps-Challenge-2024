@@ -21,7 +21,7 @@ function App() {
     <div className="App">
       <div className="header">
         <p>
-          <img src={Logo} style={{ height: 50, width: 50, margin-right: 10 }} alt="Capuchins logo"/> 
+          <img src={Logo} style={{ height: 50, width: 50}} alt="Capuchins logo"/> 
           Capuchins | Orrery
         </p>
       </div>
