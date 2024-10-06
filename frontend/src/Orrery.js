@@ -1,5 +1,5 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, Stage, OrbitControls } from "@react-three/drei";
+import { useGLTF, Stage, OrbitControls, Line } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -67,9 +67,29 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     return new THREE.Vector3(x, y, z);
 }
 
+// Orbit Line Component
+function OrbitLine({ a, e, i }) {
+    const points = [];
+    for (let angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
+        const r = (a * (1 - e ** 2)) / (1 + e * Math.cos(angle));
+        const x = r * Math.cos(angle);
+        const y = r * Math.sin(angle);
+        const z = 0; // For a 2D orbit in the XY plane; modify for 3D
+
+        const I = (i * Math.PI) / 180; // Inclination in radians
+        const orbitX = x;
+        const orbitY = y * Math.cos(I);
+        const orbitZ = y * Math.sin(I);
+
+        points.push(new THREE.Vector3(orbitX, orbitY, orbitZ));
+    }
+    return <Line points={points} color="lightblue" lineWidth={1} />;
+}
+
 // Main Orrery component with API integration
 function KeplerianOrrery() {
     const [orbitingBodies, setOrbitingBodies] = useState([]);
+    const{ scene } = useGLTF("/models/sun.glb");
 
     // Fetching Keplerian parameters from an API
     useEffect(() => {
@@ -96,8 +116,7 @@ function KeplerianOrrery() {
                     <directionalLight intensity={1} position={[5, 5, 5]} />
 
                     <mesh position={[0, 0, 0]} scale={0.1}>
-                        <sphereGeometry args={[0.5, 32, 32]} />
-                        <meshStandardMaterial color="yellow" />
+                        <primitive object={scene} scale={0.8} />
                     </mesh>
 
                     {orbitingBodies.map((body, index) => (
@@ -127,11 +146,16 @@ function OrbitingBody({ keplerianParams, scale }) {
     });
 
     return (
-        <mesh ref={bodyRef} scale={scale}>
-            <sphereGeometry args={[0.1, 16, 16]} />
-            <meshStandardMaterial color="red" />
-        </mesh>
+        <>
+            <mesh ref={bodyRef} scale={scale}>
+                <sphereGeometry args={[0.1, 16, 16]} />
+                <meshStandardMaterial color="red" />
+            </mesh>
+
+            <OrbitLine a={a} e={e} i={i} /> 
+        </>
     );
 }
+
 
 export default KeplerianOrrery;
