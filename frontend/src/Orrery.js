@@ -47,22 +47,6 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     const y = (Math.cos(W) * Math.sin(Omega) + Math.sin(W) * Math.cos(Omega) * Math.cos(I)) * xOrbital +
               (-Math.sin(W) * Math.sin(Omega) + Math.cos(W) * Math.cos(Omega) * Math.cos(I)) * yOrbital;
     const z = (Math.sin(W) * Math.sin(I)) * xOrbital + (Math.cos(W) * Math.sin(I)) * yOrbital;
-    
-    /*
-    const mu = 1; // Gravitational parameter (simplified)
-    const n = Math.sqrt(mu / Math.pow(a, 3)); // Mean motion
-    const M = n * t; // Mean anomaly
-    nu += M; // True anomaly updating over time
-
-    const r = (a * (1 - Math.pow(e, 2))) / (1 + e * Math.cos(nu)); // Orbital radius    
-    const xOrbital = r * Math.cos(nu);
-    const yOrbital = r * Math.sin(nu);
-
-    // Rotation matrix for orbital elements
-    const cosOmega = Math.cos(Omega), sinOmega = Math.sin(Omega);
-    const cosI = Math.cos(i), sinI = Math.sin(i);
-    const cosW = Math.cos(omega), sinW = Math.sin(omega);
-    */
 
     return new THREE.Vector3(x, y, z);
 }
@@ -110,7 +94,14 @@ function KeplerianOrrery() {
 
     return (
         <Canvas dpr={[1, 2]} shadows={false} camera={{ fov: 60 }} style={{ position: "absolute" }}>
-            <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} /> 
+            <OrbitControls 
+            enableZoom={true} 
+            enableRotate={true} 
+            enablePan={true} 
+            enableDamping={true}
+            dampingFactor={0.05}
+            rotateSpeed={1}
+            target={[0,0,0]}/> 
                 <Stage environment={null}>
                     <ambientLight intensity={0.3} />
                     <directionalLight intensity={1} position={[5, 5, 5]} />
@@ -148,7 +139,7 @@ function OrbitingBody({ keplerianParams, scale }) {
     return (
         <>
             <mesh ref={bodyRef} scale={scale}>
-                <sphereGeometry args={[0.1, 16, 16]} />
+                <sphereGeometry args={[0.2, 16, 16]} />
                 <meshStandardMaterial color="red" />
             </mesh>
 

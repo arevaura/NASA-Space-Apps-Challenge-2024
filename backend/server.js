@@ -18,6 +18,9 @@ app.get('/', (req, res) => {
   res.send('Hello from server!');
 });
 
+// Serve static files from the frontend/models directory
+app.use('/models', express.static(path.join(__dirname, '../frontend/models')));
+
 app.get('/load-page', (req, res) => {
 
   const filePath = path.join(__dirname, 'planets.json'); // Path to the JSON file
