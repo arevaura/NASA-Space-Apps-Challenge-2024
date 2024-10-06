@@ -2,6 +2,8 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Stage, OrbitControls, Line } from "@react-three/drei";
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
+import Popup from './Popups.js';
+import { seededRandom } from "three/src/math/MathUtils.js";
 
 // Function to calculate position based on Keplerian parameters
 function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
@@ -47,30 +49,12 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
     const y = (Math.cos(W) * Math.sin(Omega) + Math.sin(W) * Math.cos(Omega) * Math.cos(I)) * xOrbital +
               (-Math.sin(W) * Math.sin(Omega) + Math.cos(W) * Math.cos(Omega) * Math.cos(I)) * yOrbital;
     const z = (Math.sin(W) * Math.sin(I)) * xOrbital + (Math.cos(W) * Math.sin(I)) * yOrbital;
-    
-    /*
-    const mu = 1; // Gravitational parameter (simplified)
-    const n = Math.sqrt(mu / Math.pow(a, 3)); // Mean motion
-    const M = n * t; // Mean anomaly
-    nu += M; // True anomaly updating over time
-
-    const r = (a * (1 - Math.pow(e, 2))) / (1 + e * Math.cos(nu)); // Orbital radius    
-    const xOrbital = r * Math.cos(nu);
-    const yOrbital = r * Math.sin(nu);
-
-    // Rotation matrix for orbital elements
-    const cosOmega = Math.cos(Omega), sinOmega = Math.sin(Omega);
-    const cosI = Math.cos(i), sinI = Math.sin(i);
-    const cosW = Math.cos(omega), sinW = Math.sin(omega);
-    */
 
     return new THREE.Vector3(x, y, z);
 }
 
 // Orbit Line Component
-// Orbit Line Component
-// Orbit Line Component
-function OrbitLine({ a, e, i }) {
+function OrbitLine({ a, e, i, planetInfo, onClick }) {
     const points = [];
 
     for (let angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
@@ -89,7 +73,7 @@ function OrbitLine({ a, e, i }) {
 
     const handleOrbitClick = (e) => {
         e.stopPropagation();
-        alert(`Orbiting body with parameters:\nSemi-Major Axis: ${a}\nEccentricity: ${e}`);
+        onClick(planetInfo);
     };
 
     return (
@@ -108,6 +92,7 @@ function OrbitLine({ a, e, i }) {
 // Main Orrery component with API integration
 function KeplerianOrrery() {
     const [orbitingBodies, setOrbitingBodies] = useState([]);
+    const [visiblePlanet, setVisiblePlanet] = useState(null);
     const{ scene } = useGLTF("/models/sun.glb");
 
     // Fetching Keplerian parameters from an API
@@ -127,35 +112,49 @@ function KeplerianOrrery() {
         fetchOrbitingBodies();
     }, []);
 
+    const handleOrbitClick = (planetInfo) => {
+        console.log(planetInfo);
+        setVisiblePlanet(planetInfo);
+    };
+
+    const closePopup = () => {
+        setVisiblePlanet(null);
+    };
+
     return (
-        <Canvas dpr={[1, 2]} shadows={false} camera={{ fov: 60 }} style={{ position: "absolute" }}>
-            <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} /> 
-                <Stage environment={null}>
-                    <ambientLight intensity={0.3} />
-                    <directionalLight intensity={1} position={[5, 5, 5]} />
+        <>
+            <Canvas dpr={[1, 2]} shadows={false} camera={{ position: [0,0,50], fov: 10 }} style={{ position: "absolute" }}>
+                <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} /> 
+                    <Stage environment={null}>
+                        <ambientLight intensity={0.3} />
+                        <directionalLight intensity={1} position={[5, 5, 5]} />
 
-                    <mesh position={[0, 0, 0]} scale={0.1}>
-                        <primitive object={scene} scale={0.8} />
-                    </mesh>
+                        <mesh position={[0, 0, 0]} scale={0.1}>
+                            <primitive object={scene} scale={0.8} />
+                        </mesh>
 
-                    {orbitingBodies.map((body, index) => (
-                        <OrbitingBody
-                            key={index}
-                            keplerianParams={body} // Passing each object's parameters
-                            scale={[0.1, 0.1, 0.1]}
-                        />
-                    ))}
-                </Stage>
-        </Canvas>
+                        {orbitingBodies.map((body, index) => (
+                            <OrbitingBody
+                                key={index}
+                                keplerianParams={body} // Passing each object's parameters
+                                scale={[0.1, 0.1, 0.1]}
+                                onClick={handleOrbitClick}
+                            />
+                        ))}
+                    </Stage>
+            </Canvas>
+
+            {visiblePlanet && (
+                <Popup visiblePlanet={visiblePlanet} closePopup={closePopup} />
+            )}
+        </>
     );
 }
 
-
 // Orbiting body component
-// Orbiting body component
-function OrbitingBody({ keplerianParams, scale }) {
+function OrbitingBody({ keplerianParams, onClick }) {
     const bodyRef = useRef();
-    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size } = keplerianParams;
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size, object } = keplerianParams;
 
     const TIME_SCALE = 0.0005; // Simulated days per real second
 
@@ -194,7 +193,10 @@ function OrbitingBody({ keplerianParams, scale }) {
                 <meshStandardMaterial map={texture || new THREE.Texture()} />
             </mesh>
 
-            <OrbitLine a={a} e={e} i={i} /> 
+            <OrbitLine a={a} e={e} i={i} 
+            planetInfo={{object}}
+            onClick={onClick}
+            /> 
         </>
     );
 }

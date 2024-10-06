@@ -42,29 +42,22 @@ const planets = [
     }
 ];
 
-function Popup() {
-    const [visiblePlanet, setVisiblePlanet] = useState(null);
+function Popup({ visiblePlanet, closePopup}) {
 
-    const toggleInfo = (planet) => {
-        setVisiblePlanet(prev => (prev === planet ? null : planet));
-    };
+    console.log('Visible Planet:', visiblePlanet);
+    // const [visiblePlanet, setVisiblePlanet] = useState(null);
 
-    const closePopup = () => {
-        setVisiblePlanet(null); // Only close the current planet's popup
-    };
+    // check if visiblePlanet is defined and has object property
+    if (!visiblePlanet || !visiblePlanet.object) {
+        return null;
+    }
 
     return (
         <div className="popup">
-            <center>
-                {/* Buttons to toggle visibility for each planet */}
-                {planets.map(planet => (
-                    <button key={planet.name} onClick={() => toggleInfo(planet.name)}>
-                        {planet.name    }
-                    </button>
-                ))}
-            </center>
-
+            <h2>{visiblePlanet.object || "Unnamed Planet"}</h2>
+            <p>{/* other properties etc.*/}</p>
             {/* Conditional rendering for each planet's information */}
+            
             {planets.map(planet => (
                 visiblePlanet === planet.name && (
                     <div key={planet.name} id="planetInfoDiv" className="planetInfoDiv">
@@ -74,6 +67,7 @@ function Popup() {
                     </div>
                 )
             ))}
+            <button onClick={closePopup}>Close</button>
         </div>
     );
 }
