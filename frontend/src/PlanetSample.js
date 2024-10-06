@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
 
 function Model(props) {
-    const {scene} = useGLTF("/models/mars.glb") // the scene is what the 3d object is, useGLTF is a react hook
+    const {scene} = useGLTF("/models/neptune.glb") // the scene is what the 3d object is, useGLTF is a react hook
     return <primitive object={scene} {...props} /> // 
 }
 

@@ -3,7 +3,9 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const fs  = require('fs');
 const app = express();
+const path = require('path');
 
 app.use(cors({
   origin: "http://localhost:3000", 
@@ -17,28 +19,24 @@ app.get('/', (req, res) => {
 });
 
 app.get('/load-page', (req, res) => {
+
+  const filePath = path.join(__dirname, 'planets.json'); // Path to the JSON file
     // Sending a GET request using the fetch API
-  fetch('/planets.json') // API endpoint
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading file:', err);
+      return res.status(500).send('Error reading data');
     }
-    return response.json(); // Parse JSON data from the response
-  })
-  .then(data => {
-    // console.log(data); // Log the data to the console
-    for(let i = 0; i < data.length; i++) {
-      let obj = data[i];
-      res.send(data);
-   }
-  })
-  .catch(error => {
-    console.error('There was a problem with the fetch operation:', error);
+    
+    try {
+      const jsonData = JSON.parse(data); // Parse the JSON data
+      res.json(jsonData); // Send the parsed data as JSON response
+    } catch (parseError) {
+      console.error('Error parsing JSON:', parseError);
+      res.status(500).send('Error parsing data');
+    }
   });
 
-  console.log("loaded")
-
-  
 
 })
 

@@ -74,9 +74,10 @@ function KeplerianOrrery() {
     // Fetching Keplerian parameters from an API
     useEffect(() => {
         const fetchOrbitingBodies = async () => {
-            const response = await fetch("/planets.json");
+            const response = await fetch("http://localhost:8000/load-page");
             const data = await response.json();
             // const orbitingArray = Object.values(data);
+            console.log("data received");
             setOrbitingBodies(data); // Assuming 'data' is an array of Keplerian parameter objects
         };
 
@@ -84,7 +85,7 @@ function KeplerianOrrery() {
     }, []);
 
     return (
-        <Canvas dpr={[1, 2]} shadows camera={{ fov: 60 }} style={{ position: "absolute" }}>
+        <Canvas dpr={[1, 2]} shadows={false} camera={{ fov: 60 }} style={{ position: "absolute" }}>
             <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} /> 
                 <Stage environment={null}>
                     <ambientLight intensity={0.3} />
@@ -117,7 +118,7 @@ function OrbitingBody({ keplerianParams, scale }) {
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
         const t = elapsedTime * TIME_SCALE; // Simulated time in days
-        const position = calculateOrbitPosition(elapsedTime, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
+        const position = calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
         bodyRef.current.position.copy(position);
     });
 
