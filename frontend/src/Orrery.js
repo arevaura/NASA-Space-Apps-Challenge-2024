@@ -93,6 +93,7 @@ function OrbitLine({ a, e, i, planetInfo, onClick }) {
 function KeplerianOrrery() {
     const [orbitingBodies, setOrbitingBodies] = useState([]);
     const [visiblePlanet, setVisiblePlanet] = useState(null);
+    const [timeScale, setTimeScale] = useState(0.0005);
     const{ scene } = useGLTF("/models/sun.glb");
 
     // Fetching Keplerian parameters from an API
@@ -139,10 +140,24 @@ function KeplerianOrrery() {
                                 keplerianParams={body} // Passing each object's parameters
                                 scale={[0.1, 0.1, 0.1]}
                                 onClick={handleOrbitClick}
+                                timeScale={timeScale}
                             />
                         ))}
                     </Stage>
             </Canvas>
+
+            <input
+                type="range"
+                min="0"
+                max="0.005"
+                step="0.00001"
+                value={timeScale}
+                onChange={(e) => setTimeScale(parseFloat(e.target.value))}
+                style={{ position: "absolute", top: 20, right: 20 }}
+            />
+            <p style={{ position: "absolute", top: 30, right: 20, color: "white" }}>
+                Days/Second: {timeScale.toFixed(5)}
+            </p>
 
             {visiblePlanet && (
                 <Popup visiblePlanet={visiblePlanet} closePopup={closePopup} />
@@ -152,11 +167,11 @@ function KeplerianOrrery() {
 }
 
 // Orbiting body component
-function OrbitingBody({ keplerianParams, onClick }) {
+function OrbitingBody({ keplerianParams, onClick, timeScale }) {
     const bodyRef = useRef();
     const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size, object, description, glbFile } = keplerianParams;
 
-    const TIME_SCALE = 0.0005; // Simulated days per real second
+    // const TIME_SCALE = 0.0005; // Simulated days per real second
 
     // Load texture
     const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
@@ -181,7 +196,7 @@ function OrbitingBody({ keplerianParams, onClick }) {
 
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
-        const t = elapsedTime * TIME_SCALE; // Simulated time in days
+        const t = elapsedTime * timeScale; // Simulated time in days
         const position = calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
         bodyRef.current.position.copy(position);
     });
