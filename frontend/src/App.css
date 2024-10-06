@@ -9,15 +9,14 @@
 .container {
   display: flex;
   flex-direction: column;
-
   height: 85vh;
   background-color: #121C31;
+  border: 1px solid white;
 }
 
 .Orrery{
   width: 100%;  /* Orrery takes full width of container */
   height: 100%; /* Orrery takes full height of container */
-  border: 1px solid white;
   box-sizing: border-box;
   overflow: hidden;
 }
