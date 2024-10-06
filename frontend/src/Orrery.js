@@ -74,13 +74,17 @@ function KeplerianOrrery() {
     // Fetching Keplerian parameters from an API
     useEffect(() => {
         const fetchOrbitingBodies = async () => {
-            const response = await fetch("http://localhost:8000/load-page");
-            const data = await response.json();
-            // const orbitingArray = Object.values(data);
-            console.log("data received");
-            setOrbitingBodies(data); // Assuming 'data' is an array of Keplerian parameter objects
+            try {
+                const response = await fetch("http://localhost:8000/load-page");
+                const data = await response.json();
+                // const orbitingArray = Object.values(data);
+                console.log("data received");
+                setOrbitingBodies(data); // Assuming 'data' is an array of Keplerian parameter objects
+            } catch (error) {
+                console.error("Error fetching orbiting bodies:", error);
+            }
         };
-
+        
         fetchOrbitingBodies();
     }, []);
 
@@ -113,7 +117,7 @@ function OrbitingBody({ keplerianParams, scale }) {
     const bodyRef = useRef();
     const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode } = keplerianParams;
     
-    const TIME_SCALE = 10; // Simulated days per real second
+    const TIME_SCALE = 0.001; // Simulated days per real second
 
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
@@ -125,7 +129,7 @@ function OrbitingBody({ keplerianParams, scale }) {
     return (
         <mesh ref={bodyRef} scale={scale}>
             <sphereGeometry args={[0.1, 16, 16]} />
-            <meshStandardMaterial color="blue" />
+            <meshStandardMaterial color="red" />
         </mesh>
     );
 }
