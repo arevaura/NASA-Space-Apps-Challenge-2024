@@ -30,7 +30,7 @@ function App() {
       <div className="container">
         
         <Popup/>
-        <KeplerianOrrery className="Orrery"/>
+       <KeplerianOrrery className="Orrery"/> 
         </div>
       </div>
     
