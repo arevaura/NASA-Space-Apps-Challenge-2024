@@ -1,6 +1,6 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Stage, OrbitControls, Line } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 
 // Function to calculate position based on Keplerian parameters
@@ -130,16 +130,21 @@ function OrbitingBody({ keplerianParams, scale }) {
     const TIME_SCALE = 0.001; // Simulated days per real second
 
     // Load texture
-    const textureLoader = new THREE.TextureLoader();
+    const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
     const [texture, setTexture] = useState(null);
 
     useEffect(() => {
         if (texturePath) {
-            textureLoader.load(texturePath, (loadedTexture) => {
-                setTexture(loadedTexture);
-            });
+            textureLoader.load( texturePath, (loadedTexture) => 
+                setTexture(loadedTexture),
+                undefined,
+                (err) => {
+                    console.error("Texture loading error:", err);
+                }
+            );
         }
     }, [texturePath]);
+
 
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds

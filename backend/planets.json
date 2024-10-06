@@ -13,7 +13,6 @@
         "dperi": 0.16047689,
         "anode": 48.33076593,
         "danode": -0.12534081,
-        "glbFile": "/models/mercury.glb",
         "texturePath": "/textures/test.jpg"
     },
     {
@@ -30,7 +29,6 @@
         "dperi": 0.00268329,
         "anode": 76.67984255,
         "danode": -0.27769418,
-        "glbFile": "/models/venus.glb",
         "texturePath": "/textures/test.jpg"
     },
     {
@@ -47,7 +45,6 @@
         "dperi": 0.32327364,
         "anode": 0.0,
         "danode": 0.0,
-        "glbFile": "/models/earth.glb",
         "texturePath": "/textures/test.jpg"
     },
     {
@@ -64,7 +61,6 @@
         "dperi": 0.44441088,
         "anode": 49.55953891,
         "danode": -0.29257343,
-        "glbFile": "/models/mars.glb",
         "texturePath": "/textures/test.jpg"
     },
     {
@@ -81,7 +77,6 @@
         "dperi": 0.21252668,
         "anode": 100.47390909,
         "danode": 0.20469106,
-        "glbFile": "/models/jupiter.glb",
         "texturePath": "/textures/test.jpg"
     },
     {
@@ -98,7 +93,6 @@
         "dperi": -0.41897216,
         "anode": 113.66242448,
         "danode": -0.28867794,
-        "glbFile": "/models/saturn.glb",
         "texturePath": "/textures/test.jpg"
     },
     {
@@ -115,7 +109,6 @@
         "dperi": 0.40805281,
         "anode": 74.01692503,
         "danode": 0.04240589,
-        "glbFile": "/models/uranus.glb",
         "texturePath": "/textures/test.jpg"
     },
     {
@@ -132,7 +125,6 @@
         "dperi": -0.32241464,
         "anode": 131.78422574,
         "danode": -0.00508664,
-        "glbFile": "/models/neptune.glb",
         "texturePath": "/textures/test.jpg"
     },
     {
@@ -149,7 +141,6 @@
         "dperi": -0.04062942,
         "anode": 110.30393684,
         "danode": -0.01183482,
-        "glbFile": "/models/pluto.glb",
         "texturePath": "/textures/test.jpg"
     }
 ]
