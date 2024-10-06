@@ -68,7 +68,9 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
 }
 
 // Orbit Line Component
-function OrbitLine({ a, e, i }) {
+// Orbit Line Component
+// Orbit Line Component
+function OrbitLine({ a, e, i, onClick }) {
     const points = [];
     for (let angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
         const r = (a * (1 - e ** 2)) / (1 + e * Math.cos(angle));
@@ -83,8 +85,20 @@ function OrbitLine({ a, e, i }) {
 
         points.push(new THREE.Vector3(orbitX, orbitY, orbitZ));
     }
-    return <Line points={points} color="lightblue" lineWidth={1} />;
+
+    return (
+        <Line 
+            points={points} 
+            color="lightblue" 
+            lineWidth={1} 
+            onPointerDown={onClick} 
+            onPointerOver={(e) => (e.object.material.color.set('orange'))}
+            onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
+        />
+    );
 }
+
+
 
 // Main Orrery component with API integration
 function KeplerianOrrery() {
@@ -132,18 +146,25 @@ function KeplerianOrrery() {
 }
 
 // Orbiting body component
+// Orbiting body component
+// Orbiting body component
 function OrbitingBody({ keplerianParams, scale }) {
     const bodyRef = useRef();
     const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode } = keplerianParams;
-    
+
     const TIME_SCALE = 0.001; // Simulated days per real second
 
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
         const t = elapsedTime * TIME_SCALE; // Simulated time in days
-        const position = calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
+        const position = calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode);
         bodyRef.current.position.copy(position);
     });
+
+    const handleOrbitClick = (e) => {
+        e.stopPropagation(); // Prevent click event from bubbling up
+        alert(`Orbiting body with parameters:\nSemi-Major Axis: ${a}\nEccentricity: ${e}`);
+    };
 
     return (
         <>
@@ -152,10 +173,9 @@ function OrbitingBody({ keplerianParams, scale }) {
                 <meshStandardMaterial color="red" />
             </mesh>
 
-            <OrbitLine a={a} e={e} i={i} /> 
+            <OrbitLine a={a} e={e} i={i} onClick={handleOrbitClick} /> 
         </>
     );
 }
-
-
+    
 export default KeplerianOrrery;
