@@ -4,10 +4,11 @@
     padding: 0; /* Padding can be adjusted as needed */
     background-color: #0b1220;
     width: 25vw; /* Keep this if it fits your design */
-    height: 175%; /* Allow height to adjust based on content */
+    height: 50%; /* Allow height to adjust based on content */
     margin: 30px; /* Adjust margins if needed */
-    position: fixed;
+    position: absolute;
     z-index: 2;
+    font-size: 15px;
 
 }
 
