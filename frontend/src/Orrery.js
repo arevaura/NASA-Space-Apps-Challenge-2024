@@ -107,7 +107,7 @@ function KeplerianOrrery() {
                     <directionalLight intensity={1} position={[5, 5, 5]} />
 
                     <mesh position={[0, 0, 0]} scale={0.1}>
-                        <primitive object={scene} scale={0.8} />
+                        <primitive object={scene} scale={0.5} />
                     </mesh>
 
                     {orbitingBodies.map((body, index) => (
@@ -125,9 +125,9 @@ function KeplerianOrrery() {
 // Orbiting body component
 function OrbitingBody({ keplerianParams, scale }) {
     const bodyRef = useRef();
-    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath } = keplerianParams;
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size } = keplerianParams;
 
-    const TIME_SCALE = 0.001; // Simulated days per real second
+    const TIME_SCALE = 0.0005; // Simulated days per real second
 
     // Load texture
     const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
@@ -159,7 +159,7 @@ function OrbitingBody({ keplerianParams, scale }) {
 
     return (
         <>
-            <mesh ref={bodyRef} scale={scale}>
+            <mesh ref={bodyRef} scale={size}>
                 <sphereGeometry args={[1, 16, 16]} />
                 <meshStandardMaterial map={texture || new THREE.Texture()} />
             </mesh>

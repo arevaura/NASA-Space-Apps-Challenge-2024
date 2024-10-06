@@ -13,7 +13,8 @@
         "dperi": 0.16047689,
         "anode": 48.33076593,
         "danode": -0.12534081,
-        "texturePath": "/textures/mercury.jpg"
+        "texturePath": "/textures/mercury.jpg",
+        "size": 0.01752
     },
     {
         "object": "Venus",
@@ -29,7 +30,8 @@
         "dperi": 0.00268329,
         "anode": 76.67984255,
         "danode": -0.27769418,
-        "texturePath": "/textures/venus.jpg"
+        "texturePath": "/textures/venus.jpg",
+        "size": 0.043455
     },
     {
         "object": "EM_Bary",
@@ -45,7 +47,8 @@
         "dperi": 0.32327364,
         "anode": 0.0,
         "danode": 0.0,
-        "texturePath": "/textures/earth.jpg"
+        "texturePath": "/textures/earth.jpg",
+        "size": 0.045745
     },
     {
         "object": "Mars",
@@ -61,7 +64,8 @@
         "dperi": 0.44441088,
         "anode": 49.55953891,
         "danode": -0.29257343,
-        "texturePath": "/textures/mars.jpg"
+        "texturePath": "/textures/mars.jpg",
+        "size": 0.02434
     },
     {
         "object": "Jupiter",
@@ -77,7 +81,8 @@
         "dperi": 0.21252668,
         "anode": 100.47390909,
         "danode": 0.20469106,
-        "texturePath": "/textures/jupiter.jpg"
+        "texturePath": "/textures/jupiter.jpg",
+        "size": 0.50199
     },
     {
         "object": "Saturn",
@@ -93,7 +98,8 @@
         "dperi": -0.41897216,
         "anode": 113.66242448,
         "danode": -0.28867794,
-        "texturePath": "/textures/saturn.jpg"
+        "texturePath": "/textures/saturn.jpg",
+        "size": 0.41813
     },
     {
         "object": "Uranus",
@@ -109,7 +115,8 @@
         "dperi": 0.40805281,
         "anode": 74.01692503,
         "danode": 0.04240589,
-        "texturePath": "/textures/uranus.jpg"
+        "texturePath": "/textures/uranus.jpg",
+        "size": 0.18211
     },
     {
         "object": "Neptune",
@@ -125,7 +132,8 @@
         "dperi": -0.32241464,
         "anode": 131.78422574,
         "danode": -0.00508664,
-        "texturePath": "/textures/neptune.jpg"
+        "texturePath": "/textures/neptune.jpg",
+        "size": 0.176795
     },
     {
         "object": "Pluto",
@@ -141,6 +149,7 @@
         "dperi": -0.04062942,
         "anode": 110.30393684,
         "danode": -0.01183482,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/test.jpg",
+        "size": 0.00762416666
     }
 ]
