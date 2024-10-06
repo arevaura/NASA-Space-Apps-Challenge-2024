@@ -135,11 +135,15 @@ function OrbitingBody({ keplerianParams, scale }) {
 
     useEffect(() => {
         if (texturePath) {
-            textureLoader.load( texturePath, (loadedTexture) => 
-                setTexture(loadedTexture),
+            console.log("Loading texture from:", texturePath); // Log the texture path
+            textureLoader.load(
+                texturePath, 
+                (loadedTexture) => {
+                    setTexture(loadedTexture);
+                },
                 undefined,
                 (err) => {
-                    console.error("Texture loading error:", err);
+                    console.error("Texture loading error for:", texturePath, err);
                 }
             );
         }
@@ -157,7 +161,7 @@ function OrbitingBody({ keplerianParams, scale }) {
         <>
             <mesh ref={bodyRef} scale={scale}>
                 <sphereGeometry args={[1, 16, 16]} />
-                <meshStandardMaterial map={texture} />
+                <meshStandardMaterial map={texture || new THREE.Texture()} />
             </mesh>
 
             <OrbitLine a={a} e={e} i={i} /> 

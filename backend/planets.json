@@ -13,7 +13,7 @@
         "dperi": 0.16047689,
         "anode": 48.33076593,
         "danode": -0.12534081,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/mercury.jpg"
     },
     {
         "object": "Venus",
@@ -29,7 +29,7 @@
         "dperi": 0.00268329,
         "anode": 76.67984255,
         "danode": -0.27769418,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/venus.jpg"
     },
     {
         "object": "EM_Bary",
@@ -45,7 +45,7 @@
         "dperi": 0.32327364,
         "anode": 0.0,
         "danode": 0.0,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/earth.jpg"
     },
     {
         "object": "Mars",
@@ -61,7 +61,7 @@
         "dperi": 0.44441088,
         "anode": 49.55953891,
         "danode": -0.29257343,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/mars.jpg"
     },
     {
         "object": "Jupiter",
@@ -77,7 +77,7 @@
         "dperi": 0.21252668,
         "anode": 100.47390909,
         "danode": 0.20469106,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/jupiter.jpg"
     },
     {
         "object": "Saturn",
@@ -93,7 +93,7 @@
         "dperi": -0.41897216,
         "anode": 113.66242448,
         "danode": -0.28867794,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/saturn.jpg"
     },
     {
         "object": "Uranus",
@@ -109,7 +109,7 @@
         "dperi": 0.40805281,
         "anode": 74.01692503,
         "danode": 0.04240589,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/uranus.jpg"
     },
     {
         "object": "Neptune",
@@ -125,7 +125,7 @@
         "dperi": -0.32241464,
         "anode": 131.78422574,
         "danode": -0.00508664,
-        "texturePath": "/textures/test.jpg"
+        "texturePath": "/textures/neptune.jpg"
     },
     {
         "object": "Pluto",
