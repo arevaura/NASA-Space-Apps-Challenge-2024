@@ -197,7 +197,8 @@ function OrbitingBody({ keplerianParams, onClick }) {
             planetInfo={{
                 object, 
                 description: keplerianParams.description, 
-                glbFile: keplerianParams.glbFile
+                glbFile: keplerianParams.glbFile,
+                texturePath: keplerianParams.texturePath
             }}
             onClick={onClick}
             /> 
