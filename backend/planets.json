@@ -14,7 +14,8 @@
         "anode": 48.33076593,
         "danode": -0.12534081,
         "texturePath": "/textures/mercury.jpg",
-        "size": 0.014016
+        "size": 0.014016,
+        "real": 0.001752
     },
     {
         "object": "Venus",
@@ -31,7 +32,8 @@
         "anode": 76.67984255,
         "danode": -0.27769418,
         "texturePath": "/textures/venus.jpg",
-        "size": 0.034764
+        "size": 0.034764,
+        "real": 0.0043455
     },
     {
         "object": "EM_Bary",
@@ -48,7 +50,8 @@
         "anode": 0.0,
         "danode": 0.0,
         "texturePath": "/textures/earth.jpg",
-        "size": 0.036596
+        "size": 0.036596,
+        "real": 0.0045745
     },
     {
         "object": "Mars",
@@ -65,7 +68,8 @@
         "anode": 49.55953891,
         "danode": -0.29257343,
         "texturePath": "/textures/mars.jpg",
-        "size": 0.019472
+        "size": 0.019472,
+        "real": 0.002434
     },
     {
         "object": "Jupiter",
@@ -82,7 +86,8 @@
         "anode": 100.47390909,
         "danode": 0.20469106,
         "texturePath": "/textures/jupiter.jpg",
-        "size": 0.100398
+        "size": 0.100398,
+        "real": 0.050199
     },
     {
         "object": "Saturn",
@@ -99,7 +104,8 @@
         "anode": 113.66242448,
         "danode": -0.28867794,
         "texturePath": "/textures/saturn.jpg",
-        "size": 0.083626
+        "size": 0.083626,
+        "real": 0.041813
     },
     {
         "object": "Uranus",
@@ -116,7 +122,8 @@
         "anode": 74.01692503,
         "danode": 0.04240589,
         "texturePath": "/textures/uranus.jpg",
-        "size": 0.036422
+        "size": 0.036422,
+        "real": 0.018211
     },
     {
         "object": "Neptune",
@@ -133,7 +140,8 @@
         "anode": 131.78422574,
         "danode": -0.00508664,
         "texturePath": "/textures/neptune.jpg",
-        "size": 0.035359
+        "size": 0.035359,
+        "real": 0.0176795
     },
     {
         "object": "Pluto",
@@ -150,6 +158,7 @@
         "anode": 110.30393684,
         "danode": -0.01183482,
         "texturePath": "/textures/test.jpg",
-        "size": 0.00609933333
+        "size": 0.00609933333,
+        "real": 0.00228725
     }
 ]
