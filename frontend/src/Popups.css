@@ -1,19 +1,35 @@
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .planetInfoDiv {
     display: flex;
     flex-direction: column;
-    padding: 0; /* Padding can be adjusted as needed */
+    padding: 0;
     background-color: #0b1220;
-    width: 25vw; /* Keep this if it fits your design */
-    height: 50%; /* Allow height to adjust based on content */
-    margin: 30px; /* Adjust margins if needed */
+    width: 25vw;
+    height: 50%;
+    margin: 30px;
     position: absolute;
     z-index: 2;
     font-size: 15px;
     padding: 15px;
     border: 1px solid white;
-
+    animation: fadeInUp 1s ease forwards; /* Apply the animation */
+    opacity: 0; /* Start hidden */
 }
-
 .planetInfo {
     font-size:15px;
+}
+
+.planetInfoDiv.show {
+    opacity: 1; /* Fully visible */
+    transform: translateY(0); /* Move to original position */
 }
