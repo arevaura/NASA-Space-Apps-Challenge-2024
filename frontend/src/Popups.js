@@ -45,7 +45,7 @@ function Popup({ visiblePlanet, closePopup}) {
                 
                 <Canvas style={{ width: '100%', height: '200px' }} camera={{ position:[0,0,40], fov: 10}}>
                     <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} rotateSpeed={0.5} zoomSpeed={1}/>
-                    <ambientLight intensity={0.5} />
+                    <ambientLight intensity={2} />
                     <directionalLight position={[5, 5, 5]} />
                     <SphereModel texturePath={visiblePlanet.texturePath} /> 
                 </Canvas>
