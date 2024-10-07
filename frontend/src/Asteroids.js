@@ -185,7 +185,7 @@ function OrbitingBody({ keplerianParams, onClick, timeScale }) {
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
         const t = elapsedTime * timeScale; // Simulated time in days
-        const position = calculateOrbitPosition(t, a, e, i, omega, M, Omega, P );
+        const position = calculateAsteroidPosition(t, a, e, i, omega, M, Omega, P );
         bodyRef.current.position.copy(position);
     });
 
