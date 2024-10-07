@@ -249,7 +249,7 @@ function KeplerianOrrery() {
                     checked={realSize}
                     onChange={(e) => setRealSize(e.target.checked)}
                 />
-                Toggle Real Size
+                Toggle Planet Real Size
             </label>
 
             {visiblePlanet && (
@@ -333,7 +333,7 @@ function AsteroidBody({ asteroidParams, timeScale }) {
     });
 
     return (
-        <mesh ref={bodyRef} scale={[0.05, 0.05, 0.05]}>
+        <mesh ref={bodyRef} scale={[0.008, 0.008, 0.008]}>
             <sphereGeometry args={[1, 16, 16]} />
             <meshStandardMaterial color="gray" />
         </mesh>
