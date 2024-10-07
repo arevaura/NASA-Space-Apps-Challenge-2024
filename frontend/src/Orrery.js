@@ -1,8 +1,9 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, Stage, OrbitControls, Line } from "@react-three/drei";
-import { useEffect, useRef, useState, useMemo, act } from "react";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { useGLTF, Stage, OrbitControls, Line, Stars } from "@react-three/drei";
+import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 import Popup from './Popups.js';
+
 
 // Function to calculate position based on Keplerian parameters
 function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
@@ -187,7 +188,8 @@ function KeplerianOrrery() {
 
     return (
         <>
-            <Canvas dpr={[1, 2]} shadows={false} camera={{ position: [0,0,50], fov: 10 }} style={{ position: "absolute" }}>
+            <Canvas dpr={[1, 2]} shadows={false} camera={{ position: [0,0,50], fov: 10 }} style={{ position: "absolute", background: "black" }}>
+                <Stars />
                 <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} /> 
                     <Stage environment={null}>
                         <ambientLight intensity={0.3} />
