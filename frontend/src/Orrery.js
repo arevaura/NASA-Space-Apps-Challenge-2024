@@ -7,12 +7,12 @@ import Popup from './Popups.js';
 // Function to calculate position based on Keplerian parameters
 function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
     // updates with time
-    a = a + da * t
-    e = e + de * t
-    const I = (i + di * t) * Math.PI/180
-    L = (L + dL * t) * Math.PI/180
-    const w = (peri + dperi * t) * Math.PI/180
-    const Omega = (anode + danode * t) * Math.PI/180
+    a = a + da / 36500 * t
+    e = e + de / 36500 * t
+    const I = (i + di / 36500 * t) * Math.PI/180
+    L = (L + dL / 36500 * t) * Math.PI/180
+    const w = (peri + dperi / 36500 * t) * Math.PI/180
+    const Omega = (anode + danode /36500 * t) * Math.PI/180
 
     const W = w - Omega
     const M = L - w 
@@ -88,12 +88,58 @@ function OrbitLine({ a, e, i, planetInfo, onClick }) {
     );
 }
 
+/*
+// Function to calculate asteroid position based on Keplerian parameters
+function calculateAsteroidPosition(t, a, da, e, de, i, di, anode, danode, W, dW, M, dM) {
+    // updates with time
+    a = a + da * t
+    e = e + de * t
+    const I = (i + di * t) * Math.PI/180
+    const Omega = (anode + danode * t) * Math.PI/180
+
+    let E_0 = M + e * Math.sin(M)
+    let E = E_0
+
+    let maxIterations = 100; // Maximum number of iterations for Kepler's equation
+    let tolerance = 1e-6 * Math.PI / 180; // Desired tolerance for Kepler's equation
+
+    for (let iteration = 0; iteration < maxIterations; iteration++) {
+        const delta = dM / (1 - e * Math.cos(E));
+        E = E + delta;
+    
+        // Check for convergence
+        if (Math.abs(delta) < tolerance) {
+            break; // Exit the loop if within the desired tolerance
+        }
+    
+        // Optional: Log a warning if convergence is not achieved within maxIterations
+        if (iteration === maxIterations - 1) {
+            console.warn(`Kepler's equation did not converge after ${maxIterations} iterations for body with a=${a} and e=${e}`);
+        }
+    }
+
+
+    const xOrbital = a * (Math.cos(E) - e)
+    const yOrbital = a * Math.sqrt(1-e**2) * Math.sin(E)
+
+    // Coordinates in the J200 ecliptic plane
+
+    const x = (Math.cos(W) * Math.cos(Omega) - Math.sin(W) * Math.sin(Omega) * Math.cos(I)) * xOrbital +
+              (-Math.sin(W) * Math.cos(Omega) - Math.cos(W) * Math.sin(Omega) * Math.cos(I)) * yOrbital;
+    const y = (Math.cos(W) * Math.sin(Omega) + Math.sin(W) * Math.cos(Omega) * Math.cos(I)) * xOrbital +
+              (-Math.sin(W) * Math.sin(Omega) + Math.cos(W) * Math.cos(Omega) * Math.cos(I)) * yOrbital;
+    const z = (Math.sin(W) * Math.sin(I)) * xOrbital + (Math.cos(W) * Math.sin(I)) * yOrbital;
+
+    return new THREE.Vector3(x, y, z);
+}
+*/
 
 // Main Orrery component with API integration
 function KeplerianOrrery() {
     const [orbitingBodies, setOrbitingBodies] = useState([]);
+    // const [asteroids, setAsteroids] = useState([]);
     const [visiblePlanet, setVisiblePlanet] = useState(null);
-    const [timeScale, setTimeScale] = useState(0.0005);
+    const [timeScale, setTimeScale] = useState(50);
     const [realSize, setRealSize] = useState(false);
     const{ scene } = useGLTF("/models/sun.glb");
 
@@ -113,6 +159,22 @@ function KeplerianOrrery() {
         
         fetchOrbitingBodies();
     }, []);
+
+    {/*
+    useEffect(() => {
+        const fetchAsteroids = async () => {
+            try {
+                const response = await fetch("http://localhost:8000/load-asteroids");
+                const data = await response.json();
+                setAsteroids(data); // Assuming 'data' is an array of asteroid objects
+            } catch (error) {
+                console.error("Error fetching asteroids:", error);
+            }
+        };
+        
+        fetchAsteroids();
+    }, []);
+    */}
 
     const handleOrbitClick = (planetInfo) => {
         console.log(planetInfo);
@@ -145,20 +207,29 @@ function KeplerianOrrery() {
                                 realSize={realSize}
                             />
                         ))}
+                        {/*
+                        {asteroids.map((asteroid, index) => (
+                            <AsteroidBody
+                                key={index}
+                                asteroidParams={asteroid} // Pass the asteroid parameters
+                                timeScale={timeScale}
+                            />
+                         ))}
+                        */}
                     </Stage>
             </Canvas>
 
             <input
                 type="range"
                 min="0"
-                max="0.005"
-                step="0.00001"
+                max="100"
+                step="1"
                 value={timeScale}
                 onChange={(e) => setTimeScale(parseFloat(e.target.value))}
                 style={{ position: "absolute", top: 20, right: 20 }}
             />
             <p style={{ position: "absolute", top: 30, right: 20, color: "white" }}>
-                Days/Second: {timeScale.toFixed(5)}
+                Days/Second: {timeScale}
             </p>
 
             <label style={{ position: "absolute", top: 100, right: 20, color: "white" }}>
@@ -232,6 +303,29 @@ function OrbitingBody({ keplerianParams, onClick, timeScale, realSize }) {
         </>
     );
 }
+
+/*
+function AsteroidBody({ asteroidParams, timeScale }) {
+    const bodyRef = useRef();
+    const { a, e, i, ...otherParams } = asteroidParams; // Destructure your asteroid parameters as needed
+
+    // Calculate asteroid position based on your specific function
+    useFrame(({ clock }) => {
+        const elapsedTime = clock.getElapsedTime();
+        const t = elapsedTime * timeScale; // Simulated time in days
+
+        const position = calculateAsteroidPosition(t, a, ...otherParams); // Call your custom function
+        bodyRef.current.position.copy(position);
+    });
+
+    return (
+        <mesh ref={bodyRef} scale={[0.05, 0.05, 0.05]}>
+            <sphereGeometry args={[1, 16, 16]} />
+            <meshStandardMaterial color="gray" />
+        </mesh>
+    );
+}
+*/
 
 
 export default KeplerianOrrery;

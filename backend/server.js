@@ -41,6 +41,25 @@ app.get('/load-page', (req, res) => {
 
 })
 
+// Route to load the asteroids data
+app.get('/load-asteroids', (req, res) => {
+  const filePath = path.join(__dirname, 'asteroids.json'); // Path to the asteroids JSON file
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading asteroids file:', err);
+      return res.status(500).send('Error reading data');
+    }
+
+    try {
+      const jsonData = JSON.parse(data); // Parse the JSON data
+      res.json(jsonData); // Send the parsed data as JSON response
+    } catch (parseError) {
+      console.error('Error parsing asteroids JSON:', parseError);
+      res.status(500).send('Error parsing data');
+    }
+  });
+});
+
 // Serve static files from the frontend/models directory
 app.use('/models', express.static(path.join(__dirname, '../frontend/public/models')));
 app.use('/textures', express.static(path.join(__dirname, '../frontend/public/textures')));
