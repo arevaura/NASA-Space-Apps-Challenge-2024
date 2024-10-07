@@ -5,64 +5,54 @@ import * as THREE from "three";
 import Popup from './Popups.js';
 
 // Function to calculate position based on Keplerian parameters
-function calculateAsteroidPosition(t, a, da, e, de, i, di, anode, danode, W, dW, M, dM) {
-    // updates with time
-    a = a + da * t
-    e = e + de * t
-    const I = (i + di * t) * Math.PI/180
-    const w = (peri + dperi * t) * Math.PI/180
-    const Omega = (anode + danode * t) * Math.PI/180
+function calculateAsteroidPosition(t, a, e, i, omega, M, Omega, P) {
+    // Constants
+    const PI = Math.PI;
 
-    let E_0 = M + e * Math.sin(M)
-    let E = E_0
+    // Convert degrees to radians
+    const iRad = (i * PI) / 180;
+    const omegaRad = (omega * PI) / 180;
+    const OmegaRad = (Omega * PI) / 180;
 
-    let maxIterations = 100; // Maximum number of iterations for Kepler's equation
-    let tolerance = 1e-6 * Math.PI / 180; // Desired tolerance for Kepler's equation
+    // Calculate mean motion (n) in radians per day
+    const n = (2 * PI) / P;
+
+    // Calculate mean anomaly at time t
+    const M_t = M + n * t; // M_t in radians
+    const MRad = M_t % (2 * PI); // Normalize M_t to [0, 2π]
+
+    // Solve Kepler's equation for eccentric anomaly (E)
+    let E = MRad; // Initial guess for E is M
+    const tolerance = 1e-6; // Desired tolerance for convergence
+    let maxIterations = 100;
 
     for (let iteration = 0; iteration < maxIterations; iteration++) {
-        const delta = dM / (1 - e * Math.cos(E));
-        E = E + delta;
-    
+        const deltaE = (MRad - (E - e * Math.sin(E))) / (1 - e * Math.cos(E));
+        E += deltaE;
+
         // Check for convergence
-        if (Math.abs(delta) < tolerance) {
+        if (Math.abs(deltaE) < tolerance) {
             break; // Exit the loop if within the desired tolerance
         }
-    
-        // Optional: Log a warning if convergence is not achieved within maxIterations
+
+        // Optional: Log a warning if convergence is not achieved
         if (iteration === maxIterations - 1) {
-            console.warn(`Kepler's equation did not converge after ${maxIterations} iterations for body with a=${a} and e=${e}`);
+            console.warn(`Kepler's equation did not converge for M=${M_t}`);
         }
     }
 
+    // Calculate the position in the orbital plane
+    const xOrbital = a * (Math.cos(E) - e);
+    const yOrbital = a * Math.sqrt(1 - e * e) * Math.sin(E);
 
-    const xOrbital = a * (Math.cos(E) - e)
-    const yOrbital = a * Math.sqrt(1-e**2) * Math.sin(E)
+    // Convert orbital plane coordinates to 3D coordinates
+    const x = (Math.cos(omegaRad) * Math.cos(OmegaRad) - Math.sin(omegaRad) * Math.sin(OmegaRad) * Math.cos(iRad)) * xOrbital +
+              (-Math.sin(omegaRad) * Math.cos(OmegaRad) - Math.cos(omegaRad) * Math.sin(OmegaRad) * Math.cos(iRad)) * yOrbital;
 
-    // Coordinates in the J200 ecliptic plane
+    const y = (Math.cos(omegaRad) * Math.sin(OmegaRad) + Math.sin(omegaRad) * Math.cos(OmegaRad) * Math.cos(iRad)) * xOrbital +
+              (-Math.sin(omegaRad) * Math.sin(OmegaRad) + Math.cos(omegaRad) * Math.cos(OmegaRad) * Math.cos(iRad)) * yOrbital;
 
-    const x = (Math.cos(W) * Math.cos(Omega) - Math.sin(W) * Math.sin(Omega) * Math.cos(I)) * xOrbital +
-              (-Math.sin(W) * Math.cos(Omega) - Math.cos(W) * Math.sin(Omega) * Math.cos(I)) * yOrbital;
-    const y = (Math.cos(W) * Math.sin(Omega) + Math.sin(W) * Math.cos(Omega) * Math.cos(I)) * xOrbital +
-              (-Math.sin(W) * Math.sin(Omega) + Math.cos(W) * Math.cos(Omega) * Math.cos(I)) * yOrbital;
-    const z = (Math.sin(W) * Math.sin(I)) * xOrbital + (Math.cos(W) * Math.sin(I)) * yOrbital;
-
-    return new THREE.Vector3(x, y, z);
-}
-
-// Orbit Line Component
-function OrbitLine({ a, e, i, planetInfo, onClick }) {
-    const points = [];
-
-    for (let angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
-        const r = (a * (1 - e ** 2)) / (1 + e * Math.cos(angle));
-        const x = r * Math.cos(angle);
-        const y = r * Math.sin(angle);
-        const z = 0; // For a 2D orbit in the XY plane; modify for 3D
-
-        const I = (i * Math.PI) / 180; // Inclination in radians
-        const orbitX = x;
-        const orbitY = y * Math.cos(I);
-        const orbitZ = y * Math.sin(I);
+    const z = (Math.sin(omegaRad) * Math.sin(iRad)) * xOrbital + (Math.cos(omegaRad) * Math.sin(iRad)) * yOrbital;
 
         points.push(new THREE.Vector3(orbitX, orbitY, orbitZ));
     }
@@ -166,7 +156,7 @@ function KeplerianOrrery() {
 // Orbiting body component
 function OrbitingBody({ keplerianParams, onClick, timeScale }) {
     const bodyRef = useRef();
-    const { a, da, e, de, i, di, anode, danode, W, dW, M, dM, texturePath, size, object, description, glbFile } = keplerianParams;
+    const { a, e, i, omega, M, Omega, P, texturePath, size, object, description, glbFile } = keplerianParams;
 
     // const TIME_SCALE = 0.0005; // Simulated days per real second
 
@@ -194,7 +184,7 @@ function OrbitingBody({ keplerianParams, onClick, timeScale }) {
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
         const t = elapsedTime * timeScale; // Simulated time in days
-        const position = calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
+        const position = calculateOrbitPosition(t, a, e, i, omega, M, Omega, P );
         bodyRef.current.position.copy(position);
     });
 
