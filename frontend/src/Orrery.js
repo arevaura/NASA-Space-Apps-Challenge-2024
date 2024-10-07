@@ -81,7 +81,7 @@ function OrbitLine({ a, e, i, planetInfo, onClick }) {
         <Line 
             points={points} 
             color="lightblue" 
-            lineWidth={2} 
+            lineWidth={1.5} 
             onPointerDown={handleOrbitClick} // Directly handle the click
             onPointerOver={(e) => (e.object.material.color.set('orange'))}
             onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
@@ -89,56 +89,65 @@ function OrbitLine({ a, e, i, planetInfo, onClick }) {
     );
 }
 
-/*
-// Function to calculate asteroid position based on Keplerian parameters
-function calculateAsteroidPosition(t, a, da, e, de, i, di, anode, danode, W, dW, M, dM) {
-    // updates with time
-    a = a + da * t
-    e = e + de * t
-    const I = (i + di * t) * Math.PI/180
-    const Omega = (anode + danode * t) * Math.PI/180
+// Function to calculate position based on Keplerian parameters
+function calculateAsteroidPosition(t, a, e, i, omega, M, Omega, P) {
+    // Constants
+    const PI = Math.PI;
 
-    let E_0 = M + e * Math.sin(M)
-    let E = E_0
+    // Convert degrees to radians
+    const iRad = (i * PI) / 180;
+    const omegaRad = (omega * PI) / 180;
+    const OmegaRad = (Omega * PI) / 180;
 
-    let maxIterations = 100; // Maximum number of iterations for Kepler's equation
-    let tolerance = 1e-6 * Math.PI / 180; // Desired tolerance for Kepler's equation
+    // Calculate mean motion (n) in radians per day
+    const n = (2 * PI) / P;
+
+    // Calculate mean anomaly at time t
+    const M_t = M + n * t; // M_t in radians
+    const MRad = M_t % (2 * PI); // Normalize M_t to [0, 2π]
+
+    // Solve Kepler's equation for eccentric anomaly (E)
+    let E = MRad; // Initial guess for E is M
+    const tolerance = 1e-6; // Desired tolerance for convergence
+    let maxIterations = 100;
 
     for (let iteration = 0; iteration < maxIterations; iteration++) {
-        const delta = dM / (1 - e * Math.cos(E));
-        E = E + delta;
-    
+        const deltaE = (MRad - (E - e * Math.sin(E))) / (1 - e * Math.cos(E));
+        E += deltaE;
+
         // Check for convergence
-        if (Math.abs(delta) < tolerance) {
+        if (Math.abs(deltaE) < tolerance) {
             break; // Exit the loop if within the desired tolerance
         }
-    
-        // Optional: Log a warning if convergence is not achieved within maxIterations
+
+        // Optional: Log a warning if convergence is not achieved
         if (iteration === maxIterations - 1) {
-            console.warn(`Kepler's equation did not converge after ${maxIterations} iterations for body with a=${a} and e=${e}`);
+            console.warn(`Kepler's equation did not converge for M=${M_t}`);
         }
     }
 
+    // Calculate the position in the orbital plane
+    const xOrbital = a * (Math.cos(E) - e);
+    const yOrbital = a * Math.sqrt(1 - e * e) * Math.sin(E);
 
-    const xOrbital = a * (Math.cos(E) - e)
-    const yOrbital = a * Math.sqrt(1-e**2) * Math.sin(E)
+    // Convert orbital plane coordinates to 3D coordinates
+    const x = (Math.cos(omegaRad) * Math.cos(OmegaRad) - Math.sin(omegaRad) * Math.sin(OmegaRad) * Math.cos(iRad)) * xOrbital +
+              (-Math.sin(omegaRad) * Math.cos(OmegaRad) - Math.cos(omegaRad) * Math.sin(OmegaRad) * Math.cos(iRad)) * yOrbital;
 
-    // Coordinates in the J200 ecliptic plane
+    const y = (Math.cos(omegaRad) * Math.sin(OmegaRad) + Math.sin(omegaRad) * Math.cos(OmegaRad) * Math.cos(iRad)) * xOrbital +
+              (-Math.sin(omegaRad) * Math.sin(OmegaRad) + Math.cos(omegaRad) * Math.cos(OmegaRad) * Math.cos(iRad)) * yOrbital;
 
-    const x = (Math.cos(W) * Math.cos(Omega) - Math.sin(W) * Math.sin(Omega) * Math.cos(I)) * xOrbital +
-              (-Math.sin(W) * Math.cos(Omega) - Math.cos(W) * Math.sin(Omega) * Math.cos(I)) * yOrbital;
-    const y = (Math.cos(W) * Math.sin(Omega) + Math.sin(W) * Math.cos(Omega) * Math.cos(I)) * xOrbital +
-              (-Math.sin(W) * Math.sin(Omega) + Math.cos(W) * Math.cos(Omega) * Math.cos(I)) * yOrbital;
-    const z = (Math.sin(W) * Math.sin(I)) * xOrbital + (Math.cos(W) * Math.sin(I)) * yOrbital;
+    const z = (Math.sin(omegaRad) * Math.sin(iRad)) * xOrbital + (Math.cos(omegaRad) * Math.sin(iRad)) * yOrbital;
 
     return new THREE.Vector3(x, y, z);
 }
-*/
+
+
 
 // Main Orrery component with API integration
 function KeplerianOrrery() {
     const [orbitingBodies, setOrbitingBodies] = useState([]);
-    // const [asteroids, setAsteroids] = useState([]);
+    const [asteroids, setAsteroids] = useState([]);
     const [visiblePlanet, setVisiblePlanet] = useState(null);
     const [timeScale, setTimeScale] = useState(50);
     const [realSize, setRealSize] = useState(false);
@@ -161,7 +170,7 @@ function KeplerianOrrery() {
         fetchOrbitingBodies();
     }, []);
 
-    {/*
+    
     useEffect(() => {
         const fetchAsteroids = async () => {
             try {
@@ -175,7 +184,7 @@ function KeplerianOrrery() {
         
         fetchAsteroids();
     }, []);
-    */}
+    
 
     const handleOrbitClick = (planetInfo) => {
         console.log(planetInfo);
@@ -209,15 +218,15 @@ function KeplerianOrrery() {
                                 realSize={realSize}
                             />
                         ))}
-                        {/*
-                        {asteroids.map((asteroid, index) => (
+                        
+                        {asteroids.slice(0,2000).map((asteroid, index) => (
                             <AsteroidBody
                                 key={index}
                                 asteroidParams={asteroid} // Pass the asteroid parameters
                                 timeScale={timeScale}
                             />
                          ))}
-                        */}
+                        
                     </Stage>
             </Canvas>
 
@@ -309,17 +318,17 @@ function OrbitingBody({ keplerianParams, onClick, timeScale, realSize }) {
     );
 }
 
-/*
+
 function AsteroidBody({ asteroidParams, timeScale }) {
     const bodyRef = useRef();
-    const { a, e, i, ...otherParams } = asteroidParams; // Destructure your asteroid parameters as needed
+    const { a, e, i, omega, M, Omega, P } = asteroidParams; // Destructure your asteroid parameters as needed
 
     // Calculate asteroid position based on your specific function
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime();
         const t = elapsedTime * timeScale; // Simulated time in days
 
-        const position = calculateAsteroidPosition(t, a, ...otherParams); // Call your custom function
+        const position = calculateAsteroidPosition(t, a, e, i, omega, M, Omega, P ); // Call your custom function
         bodyRef.current.position.copy(position);
     });
 
@@ -330,7 +339,7 @@ function AsteroidBody({ asteroidParams, timeScale }) {
         </mesh>
     );
 }
-*/
+
 
 
 export default KeplerianOrrery;

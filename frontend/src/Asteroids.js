@@ -54,27 +54,9 @@ function calculateAsteroidPosition(t, a, e, i, omega, M, Omega, P) {
 
     const z = (Math.sin(omegaRad) * Math.sin(iRad)) * xOrbital + (Math.cos(omegaRad) * Math.sin(iRad)) * yOrbital;
 
-        points.push(new THREE.Vector3(orbitX, orbitY, orbitZ));
-    }
-
-    const handleOrbitClick = (e) => {
-        console.log('Clicked planet info:', planetInfo);
-        e.stopPropagation();
-        onClick(planetInfo);
-    };
-
-    return (
-        <Line 
-            points={points} 
-            color="lightblue" 
-            lineWidth={2} 
-            onPointerDown={handleOrbitClick} // Directly handle the click
-            onPointerOver={(e) => (e.object.material.color.set('orange'))}
-            onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
-        />
-    );
+    return new THREE.Vector3(x, y, z);
 }
-*/
+
 
 
 // Main Orrery component with API integration
