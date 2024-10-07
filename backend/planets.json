@@ -13,8 +13,11 @@
         "dperi": 0.16047689,
         "anode": 48.33076593,
         "danode": -0.12534081,
+        "texturePath": "/textures/mercury.jpg",
         "glbFile": "/models/mercury.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.014016,
+        "real": 0.001752,
+        "description": "Mercury is the smallest planet in our solar system, only slightly larger than Earth’s Moon. Named after the Roman messenger god, it is the closest planet to the Sun. However, Mercury rotates very slowly, taking 59 Earth days to complete one rotation, while it takes just 88 Earth days to orbit the Sun. This results in extreme temperature variations, with daytime temperatures soaring to over 427 degrees Celsius and dropping to nearly -201 degrees Celsius at night."
     },
     {
         "object": "Venus",
@@ -30,11 +33,14 @@
         "dperi": 0.00268329,
         "anode": 76.67984255,
         "danode": -0.27769418,
+        "texturePath": "/textures/venus.jpg",
         "glbFile": "/models/venus.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.034764,
+        "real": 0.0043455,
+        "description": "Venus is the second planet from the Sun and is similar in mass and size to Earth, often referred to as Earth's 'sister planet. However, key differences set them apart. Venus has an atmosphere with 90 times the pressure of Earth's, composed mainly of carbon dioxide and thick clouds of sulfuric acid. This results in a runaway greenhouse effect, making Venus the hottest planet in our solar system, with surface temperatures exceeding 900 degrees Fahrenheit (475 degrees Celsius)."
     },
     {
-        "object": "EM_Bary",
+        "object": "Earth",
         "a": 1.00000261,
         "da": 5.62e-06,
         "e": 0.01671123,
@@ -47,8 +53,11 @@
         "dperi": 0.32327364,
         "anode": 0.0,
         "danode": 0.0,
+        "texturePath": "/textures/earth.jpg",
         "glbFile": "/models/earth.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.036596,
+        "real": 0.0045745,
+        "description": "Earth is the third planet from the Sun and the only known planet to support life. It has a diverse climate, varying ecosystems, and abundant water, covering about 71% of its surface. Earth has one natural satellite, the Moon, which influences the planet's tides and stabilizes its axial tilt."
     },
     {
         "object": "Mars",
@@ -64,8 +73,11 @@
         "dperi": 0.44441088,
         "anode": 49.55953891,
         "danode": -0.29257343,
+        "texturePath": "/textures/mars.jpg",
         "glbFile": "/models/mars.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.019472,
+        "real": 0.002434,
+        "description": "Mars, often called “the Red Planet” due to its iron oxide dust, is a terrestrial planet featuring extinct volcanoes and vast canyons. A day on Mars lasts about 24.5 hours, making it quite similar to Earth. The planet has the largest volcano in the solar system, Olympus Mons, which stands about 21.8 kilometres high. Mars is also home to the longest canyon, Valles Marineris, stretching over 4000 kilometres. Since the late 20th century, Mars has been explored by numerous uncrewed spacecraft and rovers, and as of 2023, over 11 active probes are studying the planet. While Mars remains a key target for future human missions, none are currently planned."
     },
     {
         "object": "Jupiter",
@@ -81,8 +93,11 @@
         "dperi": 0.21252668,
         "anode": 100.47390909,
         "danode": 0.20469106,
+        "texturePath": "/textures/jupiter.jpg",
         "glbFile": "/models/jupiter.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.100398,
+        "real": 0.050199,
+        "description": "Jupiter, the largest planet in the solar system, is known for its striking bands of clouds and the Great Red Spot, a massive storm that has been raging for centuries. This gas giant has a strong magnetic field and dozens of moons, with Ganymede being the largest, even surpassing the size of Mercury. A day on Jupiter lasts only about 10 hours, but its year is equivalent to 12 Earth years. Since the late 20th century, Jupiter has been explored by several spacecraft, including the Galileo orbiter and the Juno mission, which is currently studying the planet's atmosphere and magnetic field."
     },
     {
         "object": "Saturn",
@@ -98,8 +113,11 @@
         "dperi": -0.41897216,
         "anode": 113.66242448,
         "danode": -0.28867794,
+        "texturePath": "/textures/saturn.jpg",
         "glbFile": "/models/saturn.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.083626,
+        "real": 0.041813,
+        "description": "Saturn is famous for its stunning ring system, composed of ice and rock particles. The second-largest planet in the solar system, Saturn is a gas giant with a thick atmosphere primarily made of hydrogen and helium. It has over 80 known moons, with Titan being the largest. A day on Saturn lasts about 10.7 hours, while it takes approximately 29.5 Earth years to complete an orbit around the Sun."
     },
     {
         "object": "Uranus",
@@ -115,8 +133,11 @@
         "dperi": 0.40805281,
         "anode": 74.01692503,
         "danode": 0.04240589,
+        "texturePath": "/textures/uranus.jpg",
         "glbFile": "/models/uranus.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.036422,
+        "real": 0.018211,
+        "description": "Uranus, the seventh planet from the Sun, is an ice giant known with a unique rotation. It spins nearly perpendicular to the plane of its orbit at an angle close to 90°. It is the third-largest planet in our solar system, with a diameter about four times that of Earth. Uranus has faint icy rings and more than two dozen small moons. It takes 84 Earth years to complete one orbit around the Sun. The planet's striking blue color comes from the methane in its atmosphere, and it is primarily composed of water, methane, and ammonia gases, with a small rocky core."
     },
     {
         "object": "Neptune",
@@ -132,8 +153,11 @@
         "dperi": -0.32241464,
         "anode": 131.78422574,
         "danode": -0.00508664,
+        "texturePath": "/textures/neptune.jpg",
         "glbFile": "/models/neptune.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.035359,
+        "real": 0.0176795,
+        "description": "Neptune, the eighth and farthest planet from the Sun, is a gas giant known for its deep blue colour caused by methane in its atmosphere. It is nearly four times wider than Earth. Neptune experiences powerful storms, including the famous Great Dark Spot, a storm the size of Earth. The planet has 14 known moons, the largest being Triton, which orbits in the opposite direction of Neptune's rotation. It takes Neptune 165 Earth years to complete one orbit around the Sun, and its winds are the fastest in the solar system, reaching up to 2,100 kilometers per hour!"
     },
     {
         "object": "Pluto",
@@ -149,7 +173,10 @@
         "dperi": -0.04062942,
         "anode": 110.30393684,
         "danode": -0.01183482,
+        "texturePath": "/textures/pluto.jpg",
         "glbFile": "/models/pluto.glb",
-        "texturePath": "/textures/test.jpg"
+        "size": 0.00609933333,
+        "real": 0.00228725,
+        "description": "Pluto is a dwarf planet. It’s about 2,377 kilometers wide, which is even smaller than the Moon. Pluto orbits the Sun at an average distance of about 4.6 billion kilometers, taking around 248 Earth years to complete one orbit. It’s made mostly of ice and rock, with a surface temperature of -230°C! Pluto has five known moons, with Charon being the largest, and they are so big compared to Pluto that they almost look like a double planet. In 2006, Pluto was reclassified from a planet to a dwarf planet because it doesn’t clear its orbit of other objects like the eight major planets do. "
     }
 ]

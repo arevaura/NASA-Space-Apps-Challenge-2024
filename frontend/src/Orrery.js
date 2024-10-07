@@ -1,17 +1,19 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, Stage, OrbitControls, Line } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { useGLTF, Stage, OrbitControls, Line, Stars } from "@react-three/drei";
+import { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
+import Popup from './Popups.js';
+
 
 // Function to calculate position based on Keplerian parameters
 function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode) {
     // updates with time
-    a = a + da * t
-    e = e + de * t
-    const I = (i + di * t) * Math.PI/180
-    L = (L + dL * t) * Math.PI/180
-    const w = (peri + dperi * t) * Math.PI/180
-    const Omega = (anode + danode * t) * Math.PI/180
+    a = a + da / 36500 * t
+    e = e + de / 36500 * t
+    const I = (i + di / 36500 * t) * Math.PI/180
+    L = (L + dL / 36500 * t) * Math.PI/180
+    const w = (peri + dperi / 36500 * t) * Math.PI/180
+    const Omega = (anode + danode /36500 * t) * Math.PI/180
 
     const W = w - Omega
     const M = L - w 
@@ -52,8 +54,9 @@ function calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anod
 }
 
 // Orbit Line Component
-function OrbitLine({ a, e, i }) {
+function OrbitLine({ a, e, i, planetInfo, onClick }) {
     const points = [];
+
     for (let angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
         const r = (a * (1 - e ** 2)) / (1 + e * Math.cos(angle));
         const x = r * Math.cos(angle);
@@ -67,12 +70,87 @@ function OrbitLine({ a, e, i }) {
 
         points.push(new THREE.Vector3(orbitX, orbitY, orbitZ));
     }
-    return <Line points={points} color="lightblue" lineWidth={1} />;
+
+    const handleOrbitClick = (e) => {
+        console.log('Clicked planet info:', planetInfo);
+        e.stopPropagation();
+        onClick(planetInfo);
+    };
+
+    return (
+        <Line 
+            points={points} 
+            color="lightblue" 
+            lineWidth={1.5} 
+            onPointerDown={handleOrbitClick} // Directly handle the click
+            onPointerOver={(e) => (e.object.material.color.set('orange'))}
+            onPointerOut={(e) => (e.object.material.color.set('lightblue'))}
+        />
+    );
 }
+
+// Function to calculate position based on Keplerian parameters
+function calculateAsteroidPosition(t, a, e, i, omega, M, Omega, P) {
+    // Constants
+    const PI = Math.PI;
+
+    // Convert degrees to radians
+    const iRad = (i * PI) / 180;
+    const omegaRad = (omega * PI) / 180;
+    const OmegaRad = (Omega * PI) / 180;
+
+    // Calculate mean motion (n) in radians per day
+    const n = (2 * PI) / P;
+
+    // Calculate mean anomaly at time t
+    const M_t = M + n * t; // M_t in radians
+    const MRad = M_t % (2 * PI); // Normalize M_t to [0, 2π]
+
+    // Solve Kepler's equation for eccentric anomaly (E)
+    let E = MRad; // Initial guess for E is M
+    const tolerance = 1e-6; // Desired tolerance for convergence
+    let maxIterations = 100;
+
+    for (let iteration = 0; iteration < maxIterations; iteration++) {
+        const deltaE = (MRad - (E - e * Math.sin(E))) / (1 - e * Math.cos(E));
+        E += deltaE;
+
+        // Check for convergence
+        if (Math.abs(deltaE) < tolerance) {
+            break; // Exit the loop if within the desired tolerance
+        }
+
+        // Optional: Log a warning if convergence is not achieved
+        if (iteration === maxIterations - 1) {
+            console.warn(`Kepler's equation did not converge for M=${M_t}`);
+        }
+    }
+
+    // Calculate the position in the orbital plane
+    const xOrbital = a * (Math.cos(E) - e);
+    const yOrbital = a * Math.sqrt(1 - e * e) * Math.sin(E);
+
+    // Convert orbital plane coordinates to 3D coordinates
+    const x = (Math.cos(omegaRad) * Math.cos(OmegaRad) - Math.sin(omegaRad) * Math.sin(OmegaRad) * Math.cos(iRad)) * xOrbital +
+              (-Math.sin(omegaRad) * Math.cos(OmegaRad) - Math.cos(omegaRad) * Math.sin(OmegaRad) * Math.cos(iRad)) * yOrbital;
+
+    const y = (Math.cos(omegaRad) * Math.sin(OmegaRad) + Math.sin(omegaRad) * Math.cos(OmegaRad) * Math.cos(iRad)) * xOrbital +
+              (-Math.sin(omegaRad) * Math.sin(OmegaRad) + Math.cos(omegaRad) * Math.cos(OmegaRad) * Math.cos(iRad)) * yOrbital;
+
+    const z = (Math.sin(omegaRad) * Math.sin(iRad)) * xOrbital + (Math.cos(omegaRad) * Math.sin(iRad)) * yOrbital;
+
+    return new THREE.Vector3(x, y, z);
+}
+
+
 
 // Main Orrery component with API integration
 function KeplerianOrrery() {
     const [orbitingBodies, setOrbitingBodies] = useState([]);
+    const [asteroids, setAsteroids] = useState([]);
+    const [visiblePlanet, setVisiblePlanet] = useState(null);
+    const [timeScale, setTimeScale] = useState(50);
+    const [realSize, setRealSize] = useState(false);
     const{ scene } = useGLTF("/models/sun.glb");
 
     // Fetching Keplerian parameters from an API
@@ -92,73 +170,176 @@ function KeplerianOrrery() {
         fetchOrbitingBodies();
     }, []);
 
+    
+    useEffect(() => {
+        const fetchAsteroids = async () => {
+            try {
+                const response = await fetch("http://localhost:8000/load-asteroids");
+                const data = await response.json();
+                setAsteroids(data); // Assuming 'data' is an array of asteroid objects
+            } catch (error) {
+                console.error("Error fetching asteroids:", error);
+            }
+        };
+        
+        fetchAsteroids();
+    }, []);
+    
+
+    const handleOrbitClick = (planetInfo) => {
+        console.log(planetInfo);
+        setVisiblePlanet(planetInfo);
+    };
+
+    const closePopup = () => {
+        setVisiblePlanet(null);
+    };
+
     return (
-        <Canvas dpr={[1, 2]} shadows={false} camera={{ fov: 60 }} style={{ position: "absolute" }}>
-            <OrbitControls 
-            enableZoom={true} 
-            enableRotate={true} 
-            enablePan={true} 
-            enableDamping={true}
-            dampingFactor={0.05}
-            rotateSpeed={1}
-            target={[0,0,0]}/> 
-                <Stage environment={null}>
-                    <ambientLight intensity={0.3} />
-                    <directionalLight intensity={1} position={[5, 5, 5]} />
+        <>
+            <Canvas dpr={[1, 2]} shadows={false} camera={{ position: [0,0,50], fov: 10 }} style={{ position: "absolute", background: "black" }}>
+                <Stars />
+                <OrbitControls enableZoom={true} enableRotate={true} enablePan={true} /> 
+                    <Stage environment={null}>
+                        <ambientLight intensity={0.3} />
+                        <directionalLight intensity={1} position={[5, 5, 5]} />
 
-                    <mesh position={[0, 0, 0]} scale={0.1}>
-                        <primitive object={scene} scale={0.8} />
-                    </mesh>
+                        <mesh position={[0, 0, 0]} scale={0.1}>
+                            <primitive object={scene} scale={0.8} />
+                        </mesh>
 
-                    {orbitingBodies.map((body, index) => (
-                        <OrbitingBody
-                            key={index}
-                            keplerianParams={body} // Passing each object's parameters
-                            scale={[0.1, 0.1, 0.1]}
-                        />
-                    ))}
-                </Stage>
-        </Canvas>
+                        {orbitingBodies.map((body, index) => (
+                            <OrbitingBody
+                                key={index}
+                                keplerianParams={body} // Passing each object's parameters
+                                scale={[0.1, 0.1, 0.1]}
+                                onClick={handleOrbitClick}
+                                timeScale={timeScale}
+                                realSize={realSize}
+                            />
+                        ))}
+                        
+                        {asteroids.slice(0,2000).map((asteroid, index) => (
+                            <AsteroidBody
+                                key={index}
+                                asteroidParams={asteroid} // Pass the asteroid parameters
+                                timeScale={timeScale}
+                            />
+                         ))}
+                        
+                    </Stage>
+            </Canvas>
+
+            <input
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                value={timeScale}
+                onChange={(e) => setTimeScale(parseFloat(e.target.value))}
+                style={{ position: "absolute", top: 20, right: 20 }}
+            />
+            <p style={{ position: "absolute", top: 30, right: 20, color: "white" }}>
+                Days/Second: {timeScale}
+            </p>
+
+            <label style={{ position: "absolute", top: 100, right: 20, color: "white" }}>
+                <input
+                    type="checkbox"
+                    checked={realSize}
+                    onChange={(e) => setRealSize(e.target.checked)}
+                />
+                Toggle Planet Real Size
+            </label>
+
+            {visiblePlanet && (
+                <Popup visiblePlanet={visiblePlanet} closePopup={closePopup} />
+            )}
+        </>
     );
 }
 
 // Orbiting body component
-function OrbitingBody({ keplerianParams, scale }) {
+function OrbitingBody({ keplerianParams, onClick, timeScale, realSize }) {
     const bodyRef = useRef();
-    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath } = keplerianParams;
+    const { a, da, e, de, i, di, L, dL, peri, dperi, anode, danode, texturePath, size, object, description, glbFile, real } = keplerianParams;
 
-    const TIME_SCALE = 0.001; // Simulated days per real second
+    // const TIME_SCALE = 0.0005; // Simulated days per real second
+    const actualSize = realSize ? (real || size) : size;
 
     // Load texture
-    const textureLoader = new THREE.TextureLoader();
+    const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
     const [texture, setTexture] = useState(null);
 
     useEffect(() => {
         if (texturePath) {
-            textureLoader.load(texturePath, (loadedTexture) => {
-                setTexture(loadedTexture);
-            });
+            console.log("Loading texture from:", texturePath); // Log the texture path
+            textureLoader.load(
+                texturePath, 
+                (loadedTexture) => {
+                    setTexture(loadedTexture);
+                },
+                undefined,
+                (err) => {
+                    console.error("Texture loading error for:", texturePath, err);
+                }
+            );
         }
     }, [texturePath]);
 
+
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime(); // Real time in seconds
-        const t = elapsedTime * TIME_SCALE; // Simulated time in days
+        const t = elapsedTime * timeScale; // Simulated time in days
         const position = calculateOrbitPosition(t, a, da, e, de, i, di, L, dL, peri, dperi, anode, danode );
         bodyRef.current.position.copy(position);
     });
 
     return (
         <>
-            <mesh ref={bodyRef} scale={scale}>
+            <mesh ref={bodyRef} scale={[actualSize, actualSize, actualSize]}>
                 <sphereGeometry args={[1, 16, 16]} />
-                <meshStandardMaterial map={texture} />
+                <meshStandardMaterial map={texture || new THREE.Texture()} />
             </mesh>
 
-            <OrbitLine a={a} e={e} i={i} /> 
+            <OrbitLine a={a} e={e} i={i} 
+            planetInfo={{
+                object, 
+                description: keplerianParams.description, 
+                glbFile: keplerianParams.glbFile,
+                texturePath: keplerianParams.texturePath,
+                a: keplerianParams.a,
+                e: keplerianParams.e,
+                i: keplerianParams.i,
+            }}
+            onClick={onClick}
+            /> 
         </>
     );
 }
+
+
+function AsteroidBody({ asteroidParams, timeScale }) {
+    const bodyRef = useRef();
+    const { a, e, i, omega, M, Omega, P } = asteroidParams; // Destructure your asteroid parameters as needed
+
+    // Calculate asteroid position based on your specific function
+    useFrame(({ clock }) => {
+        const elapsedTime = clock.getElapsedTime();
+        const t = elapsedTime * timeScale; // Simulated time in days
+
+        const position = calculateAsteroidPosition(t, a, e, i, omega, M, Omega, P ); // Call your custom function
+        bodyRef.current.position.copy(position);
+    });
+
+    return (
+        <mesh ref={bodyRef} scale={[0.008, 0.008, 0.008]}>
+            <sphereGeometry args={[1, 16, 16]} />
+            <meshStandardMaterial color="gray" />
+        </mesh>
+    );
+}
+
 
 
 export default KeplerianOrrery;

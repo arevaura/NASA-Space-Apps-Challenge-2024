@@ -1,7 +1,6 @@
 import './App.css';
 import React from 'react';
 import './App.css';
-import Orrery from './Orrery.js';
 import { useEffect } from 'react';
 import Popup from "./Popups.js";
 import Logo from './logo.svg'
@@ -38,4 +37,4 @@ function App() {
 }
 
 export default App;
-
+    
