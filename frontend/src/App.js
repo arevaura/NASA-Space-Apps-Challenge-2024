@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import { useEffect } from 'react';
 import Popup from "./Popups.js";
-import Logo from './Logo.svg'
+import Logo from './logo.svg'
 import PlanetSample from './PlanetSample.js';
 import KeplerianOrrery from './Orrery.js';
 
