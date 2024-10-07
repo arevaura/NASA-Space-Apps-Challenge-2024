@@ -4,7 +4,7 @@ import './App.css';
 import Orrery from './Orrery.js';
 import { useEffect } from 'react';
 import Popup from "./Popups.js";
-import Logo from './Logo.svg'
+import Logo from './logo.svg'
 import PlanetSample from './PlanetSample.js';
 import KeplerianOrrery from './Orrery.js';
 
