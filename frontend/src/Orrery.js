@@ -296,7 +296,10 @@ function OrbitingBody({ keplerianParams, onClick, timeScale, realSize }) {
                 object, 
                 description: keplerianParams.description, 
                 glbFile: keplerianParams.glbFile,
-                texturePath: keplerianParams.texturePath
+                texturePath: keplerianParams.texturePath,
+                a: keplerianParams.a,
+                e: keplerianParams.e,
+                i: keplerianParams.i,
             }}
             onClick={onClick}
             /> 

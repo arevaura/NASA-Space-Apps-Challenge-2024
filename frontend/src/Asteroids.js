@@ -50,6 +50,7 @@ function calculateAsteroidPosition(t, a, da, e, de, i, di, anode, danode, W, dW,
 }
 
 // Orbit Line Component
+/*
 function OrbitLine({ a, e, i, planetInfo, onClick }) {
     const points = [];
 
@@ -84,11 +85,12 @@ function OrbitLine({ a, e, i, planetInfo, onClick }) {
         />
     );
 }
+*/
 
 
 // Main Orrery component with API integration
 function KeplerianOrrery() {
-    const [orbitingBodies, setOrbitingBodies] = useState([]);
+    const [ateroids, setAsteroids] = useState([]);
     const [visiblePlanet, setVisiblePlanet] = useState(null);
     const [timeScale, setTimeScale] = useState(0.0005);
     const{ scene } = useGLTF("/models/sun.glb");

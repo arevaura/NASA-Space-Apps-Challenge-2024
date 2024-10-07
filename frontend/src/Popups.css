@@ -34,4 +34,22 @@
     transform: translateY(0); /* Move to original position */
 }
 
+.parameterInfoDiv {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background-color: #0b1220;
+    width: flex;
+    height: auto;
+    margin: 30px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 2;
+    font-size: 15px;
+    padding: 15px;
+    border: 1px solid white;
+    animation: fadeInUp 1s ease forwards; /* Apply the animation */
+    opacity: 0; /* Start hidden */
+}
 
